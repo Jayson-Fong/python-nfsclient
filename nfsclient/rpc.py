@@ -5,12 +5,9 @@ import time
 from random import randint
 
 from . import auth as _auth
+from .error import RPCProtocolError
 
 logger = logging.getLogger(__package__)
-
-
-class RPCProtocolError(Exception):
-    pass
 
 
 class RPC:

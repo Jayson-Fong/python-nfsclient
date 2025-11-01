@@ -1,12 +1,14 @@
 import struct
-from xdrlib import Packer, Unpacker, ConversionError
-from xdrlib import Error as XDRError
 from . import const
 from . import rtypes as types
 
 
-class nullclass(object):
-    pass
+try:
+    from xdrlib import Packer, Unpacker, ConversionError  # noqa
+    from xdrlib import Error as XDRError  # noqa
+except ImportError:
+    from xdrlib3 import Packer, Unpacker, ConversionError
+    from xdrlib3 import Error as XDRError
 
 
 class nfs_pro_v3Packer(Packer):

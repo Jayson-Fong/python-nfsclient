@@ -4,10 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "nfsclient"
-version = "0.0.2"
+version = "0.0.1"
 requires-python = ">=3.8"
 authors = [
-    {name = "Jayson Fong", email = "jayson.fong@gatech.edu"}
+    {name = "Jayson Fong", email = "jayson.fong@gatech.edu"},
+    {name = "Cooper Yang", email = "cm_yang@yeah.net"},
+]
+dependencies = [
+    "xdrlib3; python_full_version >= '3.13.0'",
 ]
 description = "NFSv3 Client"
 readme = "README.md"

@@ -35,6 +35,7 @@ from ..const import (
     SET_TO_CLIENT_TIME,
     SET_TO_SERVER_TIME,
 )
+from ..error import NFSClientError
 from ..pack import nfs_pro_v3Packer, nfs_pro_v3Unpacker
 from ..rpc import RPC
 from ..rtypes import (
@@ -65,12 +66,11 @@ from ..rtypes import (
     rename3args,
     NFSTime,
 )
-from ..utils import str_to_bytes
 
 logger = logging.getLogger(__package__)
 
 
-class NFSAccessError(Exception):
+class NFSAccessError(NFSClientError):
     pass
 
 
@@ -221,7 +221,7 @@ class NFSv3(RPC):
     def lookup(self, dir_handle, file_folder, auth=None):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(
-            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(file_folder))
+            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(file_folder).encode())
         )
 
         logger.debug(
@@ -292,7 +292,7 @@ class NFSv3(RPC):
                 offset=offset,
                 count=count,
                 stable=stable_how,
-                data=str_to_bytes(content),
+                data=str(content).encode(),
             )
         )
 
@@ -340,7 +340,7 @@ class NFSv3(RPC):
         )
         packer.pack_create3args(
             create3args(
-                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(file_name)),
+                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(file_name).encode()),
                 how=createhow3(mode=create_mode, obj_attributes=attrs, verf=verf),
             )
         )
@@ -386,7 +386,7 @@ class NFSv3(RPC):
         )
         packer.pack_mkdir3args(
             mkdir3args(
-                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(dir_name)),
+                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(dir_name).encode()),
                 attributes=attrs,
             )
         )
@@ -414,9 +414,9 @@ class NFSv3(RPC):
         )
         packer.pack_symlink3args(
             symlink3args(
-                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(link_name)),
+                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(link_name).encode()),
                 symlink=symlinkdata3(
-                    symlink_attributes=attrs, symlink_data=str_to_bytes(link_to_path)
+                    symlink_attributes=attrs, symlink_data=str(link_to_path).encode()
                 ),
             )
         )
@@ -477,7 +477,7 @@ class NFSv3(RPC):
             )
         packer.pack_mknod3args(
             mknod3args(
-                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(file_name)),
+                where=diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(file_name).encode()),
                 what=what,
             )
         )
@@ -496,7 +496,7 @@ class NFSv3(RPC):
     def remove(self, dir_handle, file_name, auth=None):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(
-            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(file_name))
+            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(file_name).encode())
         )
 
         logger.debug(
@@ -513,7 +513,7 @@ class NFSv3(RPC):
     def rmdir(self, dir_handle, dir_name, auth=None):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(
-            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str_to_bytes(dir_name))
+            diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(dir_name).encode())
         )
 
         logger.debug(
@@ -535,9 +535,9 @@ class NFSv3(RPC):
         packer.pack_rename3args(
             rename3args(
                 from_v=diropargs3(
-                    dir=NFSFileHandleV3(dir_handle_from), name=str_to_bytes(from_name)
+                    dir=NFSFileHandleV3(dir_handle_from), name=str(from_name).encode()
                 ),
-                to=diropargs3(dir=NFSFileHandleV3(dir_handle_to), name=str_to_bytes(to_name)),
+                to=diropargs3(dir=NFSFileHandleV3(dir_handle_to), name=str(to_name).encode()),
             )
         )
 
@@ -558,7 +558,7 @@ class NFSv3(RPC):
             link3args(
                 file=NFSFileHandleV3(file_handle),
                 link=diropargs3(
-                    dir=NFSFileHandleV3(link_to_dir_handle), name=str_to_bytes(link_name)
+                    dir=NFSFileHandleV3(link_to_dir_handle), name=str(link_name).encode()
                 ),
             )
         )
@@ -580,7 +580,7 @@ class NFSv3(RPC):
             readdir3args(
                 dir=NFSFileHandleV3(dir_handle),
                 cookie=cookie,
-                cookieverf=str_to_bytes(cookie_verf),
+                cookieverf=str(cookie_verf).encode(),
                 count=count,
             )
         )
@@ -610,7 +610,7 @@ class NFSv3(RPC):
             readdirplus3args(
                 dir=NFSFileHandleV3(dir_handle),
                 cookie=cookie,
-                cookieverf=str_to_bytes(cookie_verf),
+                cookieverf=str(cookie_verf).encode(),
                 dircount=dircount,
                 maxcount=maxcount,
             )
