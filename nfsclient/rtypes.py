@@ -1,7 +1,7 @@
 from . import const
 
 
-class specdata3:
+class SpecialDataV3:
     # XDR definition:
     # struct specdata3 {
     #     uint32 major;
@@ -14,13 +14,13 @@ class specdata3:
     def __repr__(self):
         out = []
         if self.major is not None:
-            out += ['major=%s' % repr(self.major)]
+            out += ["major=%s" % repr(self.major)]
         if self.minor is not None:
-            out += ['minor=%s' % repr(self.minor)]
-        return 'specdata3(%s)' % ', '.join(out)
+            out += ["minor=%s" % repr(self.minor)]
+        return "specdata3(%s)" % ", ".join(out)
 
 
-class nfs_fh3:
+class NFSFileHandleV3:
     # XDR definition:
     # struct nfs_fh3 {
     #     opaque data<NFS3_FHSIZE>;
@@ -31,11 +31,11 @@ class nfs_fh3:
     def __repr__(self):
         out = []
         if self.data is not None:
-            out += ['data=%s' % repr(self.data)]
-        return 'nfs_fh3(%s)' % ', '.join(out)
+            out += ["data=%s" % repr(self.data)]
+        return "nfs_fh3(%s)" % ", ".join(out)
 
 
-class nfstime3:
+class NFSTime:
     # XDR definition:
     # struct nfstime3 {
     #     uint32 seconds;
@@ -48,13 +48,13 @@ class nfstime3:
     def __repr__(self):
         out = []
         if self.seconds is not None:
-            out += ['seconds=%s' % repr(self.seconds)]
+            out += ["seconds=%s" % repr(self.seconds)]
         if self.nseconds is not None:
-            out += ['nseconds=%s' % repr(self.nseconds)]
-        return 'nfstime3(%s)' % ', '.join(out)
+            out += ["nseconds=%s" % repr(self.nseconds)]
+        return "nfstime3(%s)" % ", ".join(out)
 
 
-class fattr3:
+class FileAttributeV3:
     # XDR definition:
     # struct fattr3 {
     #     ftype3 type;
@@ -71,8 +71,22 @@ class fattr3:
     #     nfstime3 mtime;
     #     nfstime3 ctime;
     # };
-    def __init__(self, type=None, mode=None, nlink=None, uid=None, gid=None, size=None, used=None, rdev=None,
-                 fsid=None, fileid=None, atime=None, mtime=None, ctime=None):
+    def __init__(
+        self,
+        type=None,
+        mode=None,
+        nlink=None,
+        uid=None,
+        gid=None,
+        size=None,
+        used=None,
+        rdev=None,
+        fsid=None,
+        fileid=None,
+        atime=None,
+        mtime=None,
+        ctime=None,
+    ):
         self.type = type
         self.mode = mode
         self.nlink = nlink
@@ -90,35 +104,35 @@ class fattr3:
     def __repr__(self):
         out = []
         if self.type is not None:
-            out += ['type=%s' % const.FTYPE3.get(self.type, self.type)]
+            out += ["type=%s" % const.FTYPE3.get(self.type, self.type)]
         if self.mode is not None:
-            out += ['mode=%s' % repr(self.mode)]
+            out += ["mode=%s" % repr(self.mode)]
         if self.nlink is not None:
-            out += ['nlink=%s' % repr(self.nlink)]
+            out += ["nlink=%s" % repr(self.nlink)]
         if self.uid is not None:
-            out += ['uid=%s' % repr(self.uid)]
+            out += ["uid=%s" % repr(self.uid)]
         if self.gid is not None:
-            out += ['gid=%s' % repr(self.gid)]
+            out += ["gid=%s" % repr(self.gid)]
         if self.size is not None:
-            out += ['size=%s' % repr(self.size)]
+            out += ["size=%s" % repr(self.size)]
         if self.used is not None:
-            out += ['used=%s' % repr(self.used)]
+            out += ["used=%s" % repr(self.used)]
         if self.rdev is not None:
-            out += ['rdev=%s' % repr(self.rdev)]
+            out += ["rdev=%s" % repr(self.rdev)]
         if self.fsid is not None:
-            out += ['fsid=%s' % repr(self.fsid)]
+            out += ["fsid=%s" % repr(self.fsid)]
         if self.fileid is not None:
-            out += ['fileid=%s' % repr(self.fileid)]
+            out += ["fileid=%s" % repr(self.fileid)]
         if self.atime is not None:
-            out += ['atime=%s' % repr(self.atime)]
+            out += ["atime=%s" % repr(self.atime)]
         if self.mtime is not None:
-            out += ['mtime=%s' % repr(self.mtime)]
+            out += ["mtime=%s" % repr(self.mtime)]
         if self.ctime is not None:
-            out += ['ctime=%s' % repr(self.ctime)]
-        return 'fattr3(%s)' % ', '.join(out)
+            out += ["ctime=%s" % repr(self.ctime)]
+        return "fattr3(%s)" % ", ".join(out)
 
 
-class post_op_attr:
+class PostOperationAttributes:
     # XDR definition:
     # union post_op_attr switch(bool present) {
     #     case TRUE:
@@ -133,13 +147,13 @@ class post_op_attr:
     def __repr__(self):
         out = []
         if self.present is not None:
-            out += ['present=%s' % repr(self.present)]
+            out += ["present=%s" % repr(self.present)]
         if self.attributes is not None:
-            out += ['attributes=%s' % repr(self.attributes)]
-        return 'post_op_attr(%s)' % ', '.join(out)
+            out += ["attributes=%s" % repr(self.attributes)]
+        return "post_op_attr(%s)" % ", ".join(out)
 
 
-class wcc_attr:
+class WCCAttributes:
     # XDR definition:
     # struct wcc_attr {
     #     uint64 size;
@@ -154,15 +168,15 @@ class wcc_attr:
     def __repr__(self):
         out = []
         if self.size is not None:
-            out += ['size=%s' % repr(self.size)]
+            out += ["size=%s" % repr(self.size)]
         if self.mtime is not None:
-            out += ['mtime=%s' % repr(self.mtime)]
+            out += ["mtime=%s" % repr(self.mtime)]
         if self.ctime is not None:
-            out += ['ctime=%s' % repr(self.ctime)]
-        return 'wcc_attr(%s)' % ', '.join(out)
+            out += ["ctime=%s" % repr(self.ctime)]
+        return "wcc_attr(%s)" % ", ".join(out)
 
 
-class pre_op_attr:
+class PreOperationAttributes:
     # XDR definition:
     # union pre_op_attr switch(bool present) {
     #     case TRUE:
@@ -177,13 +191,13 @@ class pre_op_attr:
     def __repr__(self):
         out = []
         if self.present is not None:
-            out += ['present=%s' % repr(self.present)]
+            out += ["present=%s" % repr(self.present)]
         if self.attributes is not None:
-            out += ['attributes=%s' % repr(self.attributes)]
-        return 'pre_op_attr(%s)' % ', '.join(out)
+            out += ["attributes=%s" % repr(self.attributes)]
+        return "pre_op_attr(%s)" % ", ".join(out)
 
 
-class wcc_data:
+class WCCData:
     # XDR definition:
     # struct wcc_data {
     #     pre_op_attr before;
@@ -196,13 +210,13 @@ class wcc_data:
     def __repr__(self):
         out = []
         if self.before is not None:
-            out += ['before=%s' % repr(self.before)]
+            out += ["before=%s" % repr(self.before)]
         if self.after is not None:
-            out += ['after=%s' % repr(self.after)]
-        return 'wcc_data(%s)' % ', '.join(out)
+            out += ["after=%s" % repr(self.after)]
+        return "wcc_data(%s)" % ", ".join(out)
 
 
-class post_op_fh3:
+class PostOperationFileHandleV3:
     # XDR definition:
     # union post_op_fh3 switch(bool present) {
     #     case TRUE:
@@ -217,10 +231,10 @@ class post_op_fh3:
     def __repr__(self):
         out = []
         if self.present is not None:
-            out += ['present=%s' % repr(self.present)]
+            out += ["present=%s" % repr(self.present)]
         if self.handle is not None:
-            out += ['handle=%s' % repr(self.handle)]
-        return 'post_op_fh3(%s)' % ', '.join(out)
+            out += ["handle=%s" % repr(self.handle)]
+        return "post_op_fh3(%s)" % ", ".join(out)
 
 
 class set_uint32:
@@ -238,10 +252,10 @@ class set_uint32:
     def __repr__(self):
         out = []
         if self.set is not None:
-            out += ['set=%s' % repr(self.set)]
+            out += ["set=%s" % repr(self.set)]
         if self.val is not None:
-            out += ['val=%s' % repr(self.val)]
-        return 'set_uint32(%s)' % ', '.join(out)
+            out += ["val=%s" % repr(self.val)]
+        return "set_uint32(%s)" % ", ".join(out)
 
 
 class set_uint64:
@@ -259,10 +273,10 @@ class set_uint64:
     def __repr__(self):
         out = []
         if self.set is not None:
-            out += ['set=%s' % repr(self.set)]
+            out += ["set=%s" % repr(self.set)]
         if self.val is not None:
-            out += ['val=%s' % repr(self.val)]
-        return 'set_uint64(%s)' % ', '.join(out)
+            out += ["val=%s" % repr(self.val)]
+        return "set_uint64(%s)" % ", ".join(out)
 
 
 class set_time:
@@ -280,10 +294,10 @@ class set_time:
     def __repr__(self):
         out = []
         if self.set is not None:
-            out += ['set=%s' % const.time_how.get(self.set, self.set)]
+            out += ["set=%s" % const.time_how.get(self.set, self.set)]
         if self.time is not None:
-            out += ['time=%s' % repr(self.time)]
-        return 'set_time(%s)' % ', '.join(out)
+            out += ["time=%s" % repr(self.time)]
+        return "set_time(%s)" % ", ".join(out)
 
 
 class sattr3:
@@ -296,7 +310,9 @@ class sattr3:
     #     set_time atime;
     #     set_time mtime;
     # };
-    def __init__(self, mode=None, uid=None, gid=None, size=None, atime=None, mtime=None):
+    def __init__(
+        self, mode=None, uid=None, gid=None, size=None, atime=None, mtime=None
+    ):
         self.mode = mode
         self.uid = uid
         self.gid = gid
@@ -307,18 +323,18 @@ class sattr3:
     def __repr__(self):
         out = []
         if self.mode is not None:
-            out += ['mode=%s' % repr(self.mode)]
+            out += ["mode=%s" % repr(self.mode)]
         if self.uid is not None:
-            out += ['uid=%s' % repr(self.uid)]
+            out += ["uid=%s" % repr(self.uid)]
         if self.gid is not None:
-            out += ['gid=%s' % repr(self.gid)]
+            out += ["gid=%s" % repr(self.gid)]
         if self.size is not None:
-            out += ['size=%s' % repr(self.size)]
+            out += ["size=%s" % repr(self.size)]
         if self.atime is not None:
-            out += ['atime=%s' % repr(self.atime)]
+            out += ["atime=%s" % repr(self.atime)]
         if self.mtime is not None:
-            out += ['mtime=%s' % repr(self.mtime)]
-        return 'sattr3(%s)' % ', '.join(out)
+            out += ["mtime=%s" % repr(self.mtime)]
+        return "sattr3(%s)" % ", ".join(out)
 
 
 class diropargs3:
@@ -334,10 +350,10 @@ class diropargs3:
     def __repr__(self):
         out = []
         if self.dir is not None:
-            out += ['dir=%s' % repr(self.dir)]
+            out += ["dir=%s" % repr(self.dir)]
         if self.name is not None:
-            out += ['name=%s' % repr(self.name)]
-        return 'diropargs3(%s)' % ', '.join(out)
+            out += ["name=%s" % repr(self.name)]
+        return "diropargs3(%s)" % ", ".join(out)
 
 
 class diropres3ok:
@@ -355,12 +371,12 @@ class diropres3ok:
     def __repr__(self):
         out = []
         if self.obj is not None:
-            out += ['obj=%s' % repr(self.obj)]
+            out += ["obj=%s" % repr(self.obj)]
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.dir_wcc is not None:
-            out += ['dir_wcc=%s' % repr(self.dir_wcc)]
-        return 'diropres3ok(%s)' % ', '.join(out)
+            out += ["dir_wcc=%s" % repr(self.dir_wcc)]
+        return "diropres3ok(%s)" % ", ".join(out)
 
 
 class diropres3:
@@ -378,10 +394,10 @@ class diropres3:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'diropres3(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "diropres3(%s)" % ", ".join(out)
 
 
 class wccstat3:
@@ -398,8 +414,8 @@ class wccstat3:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
-        return 'wccstat3(%s)' % ', '.join(out)
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
+        return "wccstat3(%s)" % ", ".join(out)
 
 
 class getattr3res:
@@ -417,10 +433,10 @@ class getattr3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.attributes is not None:
-            out += ['attributes=%s' % repr(self.attributes)]
-        return 'getattr3res(%s)' % ', '.join(out)
+            out += ["attributes=%s" % repr(self.attributes)]
+        return "getattr3res(%s)" % ", ".join(out)
 
 
 class sattrguard3:
@@ -438,10 +454,10 @@ class sattrguard3:
     def __repr__(self):
         out = []
         if self.check is not None:
-            out += ['check=%s' % repr(self.check)]
+            out += ["check=%s" % repr(self.check)]
         if self.ctime is not None:
-            out += ['ctime=%s' % repr(self.ctime)]
-        return 'sattrguard3(%s)' % ', '.join(out)
+            out += ["ctime=%s" % repr(self.ctime)]
+        return "sattrguard3(%s)" % ", ".join(out)
 
 
 class setattr3args:
@@ -459,27 +475,27 @@ class setattr3args:
     def __repr__(self):
         out = []
         if self.object is not None:
-            out += ['object=%s' % repr(self.object)]
+            out += ["object=%s" % repr(self.object)]
         if self.new_attributes is not None:
-            out += ['new_attributes=%s' % repr(self.new_attributes)]
+            out += ["new_attributes=%s" % repr(self.new_attributes)]
         if self.guard is not None:
-            out += ['guard=%s' % repr(self.guard)]
-        return 'setattr3args(%s)' % ', '.join(out)
+            out += ["guard=%s" % repr(self.guard)]
+        return "setattr3args(%s)" % ", ".join(out)
 
 
 class wcc_data3res:
     def __init__(self, category, status=None, wcc_data=None):
-        self.category = str(category) or ''
+        self.category = str(category) or ""
         self.status = status
         self.wcc_data = wcc_data
 
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.wcc_data is not None:
-            out += ['wcc_data=%s' % repr(self.wcc_data)]
-        return self.category + '(%s)' % ', '.join(out)
+            out += ["wcc_data=%s" % repr(self.wcc_data)]
+        return self.category + "(%s)" % ", ".join(out)
 
 
 class lookup3resok:
@@ -497,12 +513,12 @@ class lookup3resok:
     def __repr__(self):
         out = []
         if self.object is not None:
-            out += ['object=%s' % repr(self.object)]
+            out += ["object=%s" % repr(self.object)]
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.dir_attributes is not None:
-            out += ['dir_attributes=%s' % repr(self.dir_attributes)]
-        return 'lookup3resok(%s)' % ', '.join(out)
+            out += ["dir_attributes=%s" % repr(self.dir_attributes)]
+        return "lookup3resok(%s)" % ", ".join(out)
 
 
 class lookup3res:
@@ -520,10 +536,10 @@ class lookup3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'lookup3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "lookup3res(%s)" % ", ".join(out)
 
 
 class access3args:
@@ -539,10 +555,10 @@ class access3args:
     def __repr__(self):
         out = []
         if self.object is not None:
-            out += ['object=%s' % repr(self.object)]
+            out += ["object=%s" % repr(self.object)]
         if self.access is not None:
-            out += ['access=%s' % repr(self.access)]
-        return 'access3args(%s)' % ', '.join(out)
+            out += ["access=%s" % repr(self.access)]
+        return "access3args(%s)" % ", ".join(out)
 
 
 class access3resok:
@@ -558,10 +574,10 @@ class access3resok:
     def __repr__(self):
         out = []
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.access is not None:
-            out += ['access=%s' % repr(self.access)]
-        return 'access3resok(%s)' % ', '.join(out)
+            out += ["access=%s" % repr(self.access)]
+        return "access3resok(%s)" % ", ".join(out)
 
 
 class access3res:
@@ -579,10 +595,10 @@ class access3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'access3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "access3res(%s)" % ", ".join(out)
 
 
 class readlink3resok:
@@ -598,10 +614,10 @@ class readlink3resok:
     def __repr__(self):
         out = []
         if self.symlink_attributes is not None:
-            out += ['symlink_attributes=%s' % repr(self.symlink_attributes)]
+            out += ["symlink_attributes=%s" % repr(self.symlink_attributes)]
         if self.data is not None:
-            out += ['data=%s' % repr(self.data)]
-        return 'readlink3resok(%s)' % ', '.join(out)
+            out += ["data=%s" % repr(self.data)]
+        return "readlink3resok(%s)" % ", ".join(out)
 
 
 class readlink3res:
@@ -619,10 +635,10 @@ class readlink3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'readlink3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "readlink3res(%s)" % ", ".join(out)
 
 
 class read3args:
@@ -640,12 +656,12 @@ class read3args:
     def __repr__(self):
         out = []
         if self.file is not None:
-            out += ['file=%s' % repr(self.file)]
+            out += ["file=%s" % repr(self.file)]
         if self.offset is not None:
-            out += ['offset=%s' % repr(self.offset)]
+            out += ["offset=%s" % repr(self.offset)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
-        return 'read3args(%s)' % ', '.join(out)
+            out += ["count=%s" % repr(self.count)]
+        return "read3args(%s)" % ", ".join(out)
 
 
 class read3resok:
@@ -665,14 +681,14 @@ class read3resok:
     def __repr__(self):
         out = []
         if self.file_attributes is not None:
-            out += ['file_attributes=%s' % repr(self.file_attributes)]
+            out += ["file_attributes=%s" % repr(self.file_attributes)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
+            out += ["count=%s" % repr(self.count)]
         if self.eof is not None:
-            out += ['eof=%s' % repr(self.eof)]
+            out += ["eof=%s" % repr(self.eof)]
         if self.data is not None:
-            out += ['data=%s' % repr(self.data)]
-        return 'read3resok(%s)' % ', '.join(out)
+            out += ["data=%s" % repr(self.data)]
+        return "read3resok(%s)" % ", ".join(out)
 
 
 class read3res:
@@ -690,10 +706,10 @@ class read3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'read3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "read3res(%s)" % ", ".join(out)
 
 
 class write3args:
@@ -715,16 +731,16 @@ class write3args:
     def __repr__(self):
         out = []
         if self.file is not None:
-            out += ['file=%s' % repr(self.file)]
+            out += ["file=%s" % repr(self.file)]
         if self.offset is not None:
-            out += ['offset=%s' % repr(self.offset)]
+            out += ["offset=%s" % repr(self.offset)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
+            out += ["count=%s" % repr(self.count)]
         if self.stable is not None:
-            out += ['stable=%s' % const.STABLE_HOW.get(self.stable, self.stable)]
+            out += ["stable=%s" % const.STABLE_HOW.get(self.stable, self.stable)]
         if self.data is not None:
-            out += ['data=%s' % repr(self.data)]
-        return 'write3args(%s)' % ', '.join(out)
+            out += ["data=%s" % repr(self.data)]
+        return "write3args(%s)" % ", ".join(out)
 
 
 class write3resok:
@@ -744,14 +760,16 @@ class write3resok:
     def __repr__(self):
         out = []
         if self.file_wcc is not None:
-            out += ['file_wcc=%s' % repr(self.file_wcc)]
+            out += ["file_wcc=%s" % repr(self.file_wcc)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
+            out += ["count=%s" % repr(self.count)]
         if self.committed is not None:
-            out += ['committed=%s' % const.STABLE_HOW.get(self.committed, self.committed)]
+            out += [
+                "committed=%s" % const.STABLE_HOW.get(self.committed, self.committed)
+            ]
         if self.verf is not None:
-            out += ['verf=%s' % repr(self.verf)]
-        return 'write3resok(%s)' % ', '.join(out)
+            out += ["verf=%s" % repr(self.verf)]
+        return "write3resok(%s)" % ", ".join(out)
 
 
 class write3res:
@@ -769,10 +787,10 @@ class write3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'write3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "write3res(%s)" % ", ".join(out)
 
 
 class createhow3:
@@ -792,12 +810,12 @@ class createhow3:
     def __repr__(self):
         out = []
         if self.mode is not None:
-            out += ['mode=%s' % const.CREATEMODE3.get(self.mode, self.mode)]
+            out += ["mode=%s" % const.CREATEMODE3.get(self.mode, self.mode)]
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.verf is not None:
-            out += ['verf=%s' % repr(self.verf)]
-        return 'createhow3(%s)' % ', '.join(out)
+            out += ["verf=%s" % repr(self.verf)]
+        return "createhow3(%s)" % ", ".join(out)
 
 
 class create3args:
@@ -813,10 +831,10 @@ class create3args:
     def __repr__(self):
         out = []
         if self.where is not None:
-            out += ['where=%s' % repr(self.where)]
+            out += ["where=%s" % repr(self.where)]
         if self.how is not None:
-            out += ['how=%s' % repr(self.how)]
-        return 'create3args(%s)' % ', '.join(out)
+            out += ["how=%s" % repr(self.how)]
+        return "create3args(%s)" % ", ".join(out)
 
 
 class create3resok:
@@ -834,12 +852,12 @@ class create3resok:
     def __repr__(self):
         out = list()
         if self.obj is not None:
-            out += ['obj=%s' % repr(self.obj)]
+            out += ["obj=%s" % repr(self.obj)]
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.dir_wcc is not None:
-            out += ['dir_wcc=%s' % repr(self.dir_wcc)]
-        return 'create3resok(%s)' % ', '.join(out)
+            out += ["dir_wcc=%s" % repr(self.dir_wcc)]
+        return "create3resok(%s)" % ", ".join(out)
 
 
 class create3res:
@@ -857,10 +875,10 @@ class create3res:
     def __repr__(self):
         out = list()
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'create3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "create3res(%s)" % ", ".join(out)
 
 
 class mkdir3args:
@@ -876,10 +894,10 @@ class mkdir3args:
     def __repr__(self):
         out = []
         if self.where is not None:
-            out += ['where=%s' % repr(self.where)]
+            out += ["where=%s" % repr(self.where)]
         if self.attributes is not None:
-            out += ['attributes=%s' % repr(self.attributes)]
-        return 'mkdir3args(%s)' % ', '.join(out)
+            out += ["attributes=%s" % repr(self.attributes)]
+        return "mkdir3args(%s)" % ", ".join(out)
 
 
 class symlinkdata3:
@@ -895,10 +913,10 @@ class symlinkdata3:
     def __repr__(self):
         out = []
         if self.symlink_attributes is not None:
-            out += ['symlink_attributes=%s' % repr(self.symlink_attributes)]
+            out += ["symlink_attributes=%s" % repr(self.symlink_attributes)]
         if self.symlink_data is not None:
-            out += ['symlink_data=%s' % repr(self.symlink_data)]
-        return 'symlinkdata3(%s)' % ', '.join(out)
+            out += ["symlink_data=%s" % repr(self.symlink_data)]
+        return "symlinkdata3(%s)" % ", ".join(out)
 
 
 class symlink3args:
@@ -914,10 +932,10 @@ class symlink3args:
     def __repr__(self):
         out = []
         if self.where is not None:
-            out += ['where=%s' % repr(self.where)]
+            out += ["where=%s" % repr(self.where)]
         if self.symlink is not None:
-            out += ['symlink=%s' % repr(self.symlink)]
-        return 'symlink3args(%s)' % ', '.join(out)
+            out += ["symlink=%s" % repr(self.symlink)]
+        return "symlink3args(%s)" % ", ".join(out)
 
 
 class devicedata3:
@@ -933,10 +951,10 @@ class devicedata3:
     def __repr__(self):
         out = []
         if self.dev_attributes is not None:
-            out += ['dev_attributes=%s' % repr(self.dev_attributes)]
+            out += ["dev_attributes=%s" % repr(self.dev_attributes)]
         if self.spec is not None:
-            out += ['spec=%s' % repr(self.spec)]
-        return 'devicedata3(%s)' % ', '.join(out)
+            out += ["spec=%s" % repr(self.spec)]
+        return "devicedata3(%s)" % ", ".join(out)
 
 
 class mknoddata3:
@@ -959,12 +977,12 @@ class mknoddata3:
     def __repr__(self):
         out = []
         if self.type is not None:
-            out += ['type=%s' % const.FTYPE3.get(self.type, self.type)]
+            out += ["type=%s" % const.FTYPE3.get(self.type, self.type)]
         if self.device is not None:
-            out += ['device=%s' % repr(self.device)]
+            out += ["device=%s" % repr(self.device)]
         if self.pipe_attributes is not None:
-            out += ['pipe_attributes=%s' % repr(self.pipe_attributes)]
-        return 'mknoddata3(%s)' % ', '.join(out)
+            out += ["pipe_attributes=%s" % repr(self.pipe_attributes)]
+        return "mknoddata3(%s)" % ", ".join(out)
 
 
 class mknod3args:
@@ -980,10 +998,10 @@ class mknod3args:
     def __repr__(self):
         out = []
         if self.where is not None:
-            out += ['where=%s' % repr(self.where)]
+            out += ["where=%s" % repr(self.where)]
         if self.what is not None:
-            out += ['what=%s' % repr(self.what)]
-        return 'mknod3args(%s)' % ', '.join(out)
+            out += ["what=%s" % repr(self.what)]
+        return "mknod3args(%s)" % ", ".join(out)
 
 
 class rename3args:
@@ -999,10 +1017,10 @@ class rename3args:
     def __repr__(self):
         out = []
         if self.from_v is not None:
-            out += ['from=%s' % repr(self.from_v)]
+            out += ["from=%s" % repr(self.from_v)]
         if self.to is not None:
-            out += ['to=%s' % repr(self.to)]
-        return 'rename3args(%s)' % ', '.join(out)
+            out += ["to=%s" % repr(self.to)]
+        return "rename3args(%s)" % ", ".join(out)
 
 
 class rename3wcc:
@@ -1018,10 +1036,10 @@ class rename3wcc:
     def __repr__(self):
         out = []
         if self.fromdir_wcc is not None:
-            out += ['fromdir_wcc=%s' % repr(self.fromdir_wcc)]
+            out += ["fromdir_wcc=%s" % repr(self.fromdir_wcc)]
         if self.todir_wcc is not None:
-            out += ['todir_wcc=%s' % repr(self.todir_wcc)]
-        return 'rename3wcc(%s)' % ', '.join(out)
+            out += ["todir_wcc=%s" % repr(self.todir_wcc)]
+        return "rename3wcc(%s)" % ", ".join(out)
 
 
 class rename3res:
@@ -1038,8 +1056,8 @@ class rename3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
-        return 'rename3res(%s)' % ', '.join(out)
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
+        return "rename3res(%s)" % ", ".join(out)
 
 
 class link3args:
@@ -1055,10 +1073,10 @@ class link3args:
     def __repr__(self):
         out = []
         if self.file is not None:
-            out += ['file=%s' % repr(self.file)]
+            out += ["file=%s" % repr(self.file)]
         if self.link is not None:
-            out += ['link=%s' % repr(self.link)]
-        return 'link3args(%s)' % ', '.join(out)
+            out += ["link=%s" % repr(self.link)]
+        return "link3args(%s)" % ", ".join(out)
 
 
 class link3wcc:
@@ -1074,10 +1092,10 @@ class link3wcc:
     def __repr__(self):
         out = []
         if self.file_attributes is not None:
-            out += ['file_attributes=%s' % repr(self.file_attributes)]
+            out += ["file_attributes=%s" % repr(self.file_attributes)]
         if self.linkdir_wcc is not None:
-            out += ['linkdir_wcc=%s' % repr(self.linkdir_wcc)]
-        return 'link3wcc(%s)' % ', '.join(out)
+            out += ["linkdir_wcc=%s" % repr(self.linkdir_wcc)]
+        return "link3wcc(%s)" % ", ".join(out)
 
 
 class link3res:
@@ -1094,8 +1112,8 @@ class link3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
-        return 'link3res(%s)' % ', '.join(out)
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
+        return "link3res(%s)" % ", ".join(out)
 
 
 class readdir3args:
@@ -1115,14 +1133,14 @@ class readdir3args:
     def __repr__(self):
         out = []
         if self.dir is not None:
-            out += ['dir=%s' % repr(self.dir)]
+            out += ["dir=%s" % repr(self.dir)]
         if self.cookie is not None:
-            out += ['cookie=%s' % repr(self.cookie)]
+            out += ["cookie=%s" % repr(self.cookie)]
         if self.cookieverf is not None:
-            out += ['cookieverf=%s' % repr(self.cookieverf)]
+            out += ["cookieverf=%s" % repr(self.cookieverf)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
-        return 'readdir3args(%s)' % ', '.join(out)
+            out += ["count=%s" % repr(self.count)]
+        return "readdir3args(%s)" % ", ".join(out)
 
 
 class entry3:
@@ -1142,14 +1160,14 @@ class entry3:
     def __repr__(self):
         out = []
         if self.fileid is not None:
-            out += ['fileid=%s' % repr(self.fileid)]
+            out += ["fileid=%s" % repr(self.fileid)]
         if self.name is not None:
-            out += ['name=%s' % repr(self.name)]
+            out += ["name=%s" % repr(self.name)]
         if self.cookie is not None:
-            out += ['cookie=%s' % repr(self.cookie)]
+            out += ["cookie=%s" % repr(self.cookie)]
         if self.nextentry is not None:
-            out += ['nextentry=%s' % repr(self.nextentry)]
-        return 'entry3(%s)' % ', '.join(out)
+            out += ["nextentry=%s" % repr(self.nextentry)]
+        return "entry3(%s)" % ", ".join(out)
 
 
 class dirlist3:
@@ -1165,10 +1183,10 @@ class dirlist3:
     def __repr__(self):
         out = []
         if self.entries is not None:
-            out += ['entries=%s' % repr(self.entries)]
+            out += ["entries=%s" % repr(self.entries)]
         if self.eof is not None:
-            out += ['eof=%s' % repr(self.eof)]
-        return 'dirlist3(%s)' % ', '.join(out)
+            out += ["eof=%s" % repr(self.eof)]
+        return "dirlist3(%s)" % ", ".join(out)
 
 
 class readdir3resok:
@@ -1186,12 +1204,12 @@ class readdir3resok:
     def __repr__(self):
         out = []
         if self.dir_attributes is not None:
-            out += ['dir_attributes=%s' % repr(self.dir_attributes)]
+            out += ["dir_attributes=%s" % repr(self.dir_attributes)]
         if self.cookieverf is not None:
-            out += ['cookieverf=%s' % repr(self.cookieverf)]
+            out += ["cookieverf=%s" % repr(self.cookieverf)]
         if self.reply is not None:
-            out += ['reply=%s' % repr(self.reply)]
-        return 'readdir3resok(%s)' % ', '.join(out)
+            out += ["reply=%s" % repr(self.reply)]
+        return "readdir3resok(%s)" % ", ".join(out)
 
 
 class readdir3res:
@@ -1209,10 +1227,10 @@ class readdir3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'readdir3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "readdir3res(%s)" % ", ".join(out)
 
 
 class readdirplus3args:
@@ -1224,7 +1242,9 @@ class readdirplus3args:
     #     uint32 dircount;
     #     uint32 maxcount;
     # };
-    def __init__(self, dir=None, cookie=None, cookieverf=None, dircount=None, maxcount=None):
+    def __init__(
+        self, dir=None, cookie=None, cookieverf=None, dircount=None, maxcount=None
+    ):
         self.dir = dir
         self.cookie = cookie
         self.cookieverf = cookieverf
@@ -1234,16 +1254,16 @@ class readdirplus3args:
     def __repr__(self):
         out = []
         if self.dir is not None:
-            out += ['dir=%s' % repr(self.dir)]
+            out += ["dir=%s" % repr(self.dir)]
         if self.cookie is not None:
-            out += ['cookie=%s' % repr(self.cookie)]
+            out += ["cookie=%s" % repr(self.cookie)]
         if self.cookieverf is not None:
-            out += ['cookieverf=%s' % repr(self.cookieverf)]
+            out += ["cookieverf=%s" % repr(self.cookieverf)]
         if self.dircount is not None:
-            out += ['dircount=%s' % repr(self.dircount)]
+            out += ["dircount=%s" % repr(self.dircount)]
         if self.maxcount is not None:
-            out += ['maxcount=%s' % repr(self.maxcount)]
-        return 'readdirplus3args(%s)' % ', '.join(out)
+            out += ["maxcount=%s" % repr(self.maxcount)]
+        return "readdirplus3args(%s)" % ", ".join(out)
 
 
 class entryplus3:
@@ -1256,7 +1276,15 @@ class entryplus3:
     #     post_op_fh3 name_handle;
     #     entryplus3 nextentry<1>;
     # };
-    def __init__(self, fileid=None, name=None, cookie=None, name_attributes=None, name_handle=None, nextentry=None):
+    def __init__(
+        self,
+        fileid=None,
+        name=None,
+        cookie=None,
+        name_attributes=None,
+        name_handle=None,
+        nextentry=None,
+    ):
         self.fileid = fileid
         self.name = name
         self.cookie = cookie
@@ -1267,18 +1295,18 @@ class entryplus3:
     def __repr__(self):
         out = []
         if self.fileid is not None:
-            out += ['fileid=%s' % repr(self.fileid)]
+            out += ["fileid=%s" % repr(self.fileid)]
         if self.name is not None:
-            out += ['name=%s' % repr(self.name)]
+            out += ["name=%s" % repr(self.name)]
         if self.cookie is not None:
-            out += ['cookie=%s' % repr(self.cookie)]
+            out += ["cookie=%s" % repr(self.cookie)]
         if self.name_attributes is not None:
-            out += ['name_attributes=%s' % repr(self.name_attributes)]
+            out += ["name_attributes=%s" % repr(self.name_attributes)]
         if self.name_handle is not None:
-            out += ['name_handle=%s' % repr(self.name_handle)]
+            out += ["name_handle=%s" % repr(self.name_handle)]
         if self.nextentry is not None:
-            out += ['nextentry=%s' % repr(self.nextentry)]
-        return 'entryplus3(%s)' % ', '.join(out)
+            out += ["nextentry=%s" % repr(self.nextentry)]
+        return "entryplus3(%s)" % ", ".join(out)
 
 
 class dirlistplus3:
@@ -1294,10 +1322,10 @@ class dirlistplus3:
     def __repr__(self):
         out = []
         if self.entries is not None:
-            out += ['entries=%s' % repr(self.entries)]
+            out += ["entries=%s" % repr(self.entries)]
         if self.eof is not None:
-            out += ['eof=%s' % repr(self.eof)]
-        return 'dirlistplus3(%s)' % ', '.join(out)
+            out += ["eof=%s" % repr(self.eof)]
+        return "dirlistplus3(%s)" % ", ".join(out)
 
 
 class readdirplus3resok:
@@ -1315,12 +1343,12 @@ class readdirplus3resok:
     def __repr__(self):
         out = []
         if self.dir_attributes is not None:
-            out += ['dir_attributes=%s' % repr(self.dir_attributes)]
+            out += ["dir_attributes=%s" % repr(self.dir_attributes)]
         if self.cookieverf is not None:
-            out += ['cookieverf=%s' % repr(self.cookieverf)]
+            out += ["cookieverf=%s" % repr(self.cookieverf)]
         if self.reply is not None:
-            out += ['reply=%s' % repr(self.reply)]
-        return 'readdirplus3resok(%s)' % ', '.join(out)
+            out += ["reply=%s" % repr(self.reply)]
+        return "readdirplus3resok(%s)" % ", ".join(out)
 
 
 class readdirplus3res:
@@ -1338,10 +1366,10 @@ class readdirplus3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'readdirplus3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "readdirplus3res(%s)" % ", ".join(out)
 
 
 class fsstat3resok:
@@ -1356,8 +1384,17 @@ class fsstat3resok:
     #     uint64 afiles;
     #     uint32 invarsec;
     # };
-    def __init__(self, obj_attributes=None, tbytes=None, fbytes=None, abytes=None, tfiles=None, ffiles=None,
-                 afiles=None, invarsec=None):
+    def __init__(
+        self,
+        obj_attributes=None,
+        tbytes=None,
+        fbytes=None,
+        abytes=None,
+        tfiles=None,
+        ffiles=None,
+        afiles=None,
+        invarsec=None,
+    ):
         self.obj_attributes = obj_attributes
         self.tbytes = tbytes
         self.fbytes = fbytes
@@ -1370,22 +1407,22 @@ class fsstat3resok:
     def __repr__(self):
         out = []
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.tbytes is not None:
-            out += ['tbytes=%s' % repr(self.tbytes)]
+            out += ["tbytes=%s" % repr(self.tbytes)]
         if self.fbytes is not None:
-            out += ['fbytes=%s' % repr(self.fbytes)]
+            out += ["fbytes=%s" % repr(self.fbytes)]
         if self.abytes is not None:
-            out += ['abytes=%s' % repr(self.abytes)]
+            out += ["abytes=%s" % repr(self.abytes)]
         if self.tfiles is not None:
-            out += ['tfiles=%s' % repr(self.tfiles)]
+            out += ["tfiles=%s" % repr(self.tfiles)]
         if self.ffiles is not None:
-            out += ['ffiles=%s' % repr(self.ffiles)]
+            out += ["ffiles=%s" % repr(self.ffiles)]
         if self.afiles is not None:
-            out += ['afiles=%s' % repr(self.afiles)]
+            out += ["afiles=%s" % repr(self.afiles)]
         if self.invarsec is not None:
-            out += ['invarsec=%s' % repr(self.invarsec)]
-        return 'fsstat3resok(%s)' % ', '.join(out)
+            out += ["invarsec=%s" % repr(self.invarsec)]
+        return "fsstat3resok(%s)" % ", ".join(out)
 
 
 class fsstat3res:
@@ -1403,10 +1440,10 @@ class fsstat3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'fsstat3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "fsstat3res(%s)" % ", ".join(out)
 
 
 class fsinfo3resok:
@@ -1424,8 +1461,20 @@ class fsinfo3resok:
     #     nfstime3 time_delta;
     #     uint32 properties;
     # };
-    def __init__(self, obj_attributes=None, rtmax=None, rtpref=None, rtmult=None, wtmax=None, wtpref=None,
-                 wtmult=None, dtpref=None, maxfilesize=None, time_delta=None, properties=None):
+    def __init__(
+        self,
+        obj_attributes=None,
+        rtmax=None,
+        rtpref=None,
+        rtmult=None,
+        wtmax=None,
+        wtpref=None,
+        wtmult=None,
+        dtpref=None,
+        maxfilesize=None,
+        time_delta=None,
+        properties=None,
+    ):
         self.obj_attributes = obj_attributes
         self.rtmax = rtmax
         self.rtpref = rtpref
@@ -1441,28 +1490,28 @@ class fsinfo3resok:
     def __repr__(self):
         out = []
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.rtmax is not None:
-            out += ['rtmax=%s' % repr(self.rtmax)]
+            out += ["rtmax=%s" % repr(self.rtmax)]
         if self.rtpref is not None:
-            out += ['rtpref=%s' % repr(self.rtpref)]
+            out += ["rtpref=%s" % repr(self.rtpref)]
         if self.rtmult is not None:
-            out += ['rtmult=%s' % repr(self.rtmult)]
+            out += ["rtmult=%s" % repr(self.rtmult)]
         if self.wtmax is not None:
-            out += ['wtmax=%s' % repr(self.wtmax)]
+            out += ["wtmax=%s" % repr(self.wtmax)]
         if self.wtpref is not None:
-            out += ['wtpref=%s' % repr(self.wtpref)]
+            out += ["wtpref=%s" % repr(self.wtpref)]
         if self.wtmult is not None:
-            out += ['wtmult=%s' % repr(self.wtmult)]
+            out += ["wtmult=%s" % repr(self.wtmult)]
         if self.dtpref is not None:
-            out += ['dtpref=%s' % repr(self.dtpref)]
+            out += ["dtpref=%s" % repr(self.dtpref)]
         if self.maxfilesize is not None:
-            out += ['maxfilesize=%s' % repr(self.maxfilesize)]
+            out += ["maxfilesize=%s" % repr(self.maxfilesize)]
         if self.time_delta is not None:
-            out += ['time_delta=%s' % repr(self.time_delta)]
+            out += ["time_delta=%s" % repr(self.time_delta)]
         if self.properties is not None:
-            out += ['properties=%s' % repr(self.properties)]
-        return 'fsinfo3resok(%s)' % ', '.join(out)
+            out += ["properties=%s" % repr(self.properties)]
+        return "fsinfo3resok(%s)" % ", ".join(out)
 
 
 class fsinfo3res:
@@ -1480,10 +1529,10 @@ class fsinfo3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'fsinfo3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "fsinfo3res(%s)" % ", ".join(out)
 
 
 class pathconf3resok:
@@ -1497,8 +1546,16 @@ class pathconf3resok:
     #     bool case_insensitive;
     #     bool case_preserving;
     # };
-    def __init__(self, obj_attributes=None, linkmax=None, name_max=None, no_trunc=None, chown_restricted=None,
-                 case_insensitive=None, case_preserving=None):
+    def __init__(
+        self,
+        obj_attributes=None,
+        linkmax=None,
+        name_max=None,
+        no_trunc=None,
+        chown_restricted=None,
+        case_insensitive=None,
+        case_preserving=None,
+    ):
         self.obj_attributes = obj_attributes
         self.linkmax = linkmax
         self.name_max = name_max
@@ -1510,20 +1567,20 @@ class pathconf3resok:
     def __repr__(self):
         out = []
         if self.obj_attributes is not None:
-            out += ['obj_attributes=%s' % repr(self.obj_attributes)]
+            out += ["obj_attributes=%s" % repr(self.obj_attributes)]
         if self.linkmax is not None:
-            out += ['linkmax=%s' % repr(self.linkmax)]
+            out += ["linkmax=%s" % repr(self.linkmax)]
         if self.name_max is not None:
-            out += ['name_max=%s' % repr(self.name_max)]
+            out += ["name_max=%s" % repr(self.name_max)]
         if self.no_trunc is not None:
-            out += ['no_trunc=%s' % repr(self.no_trunc)]
+            out += ["no_trunc=%s" % repr(self.no_trunc)]
         if self.chown_restricted is not None:
-            out += ['chown_restricted=%s' % repr(self.chown_restricted)]
+            out += ["chown_restricted=%s" % repr(self.chown_restricted)]
         if self.case_insensitive is not None:
-            out += ['case_insensitive=%s' % repr(self.case_insensitive)]
+            out += ["case_insensitive=%s" % repr(self.case_insensitive)]
         if self.case_preserving is not None:
-            out += ['case_preserving=%s' % repr(self.case_preserving)]
-        return 'pathconf3resok(%s)' % ', '.join(out)
+            out += ["case_preserving=%s" % repr(self.case_preserving)]
+        return "pathconf3resok(%s)" % ", ".join(out)
 
 
 class pathconf3res:
@@ -1541,10 +1598,10 @@ class pathconf3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'pathconf3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "pathconf3res(%s)" % ", ".join(out)
 
 
 class commit3args:
@@ -1562,12 +1619,12 @@ class commit3args:
     def __repr__(self):
         out = []
         if self.file is not None:
-            out += ['file=%s' % repr(self.file)]
+            out += ["file=%s" % repr(self.file)]
         if self.offset is not None:
-            out += ['offset=%s' % repr(self.offset)]
+            out += ["offset=%s" % repr(self.offset)]
         if self.count is not None:
-            out += ['count=%s' % repr(self.count)]
-        return 'commit3args(%s)' % ', '.join(out)
+            out += ["count=%s" % repr(self.count)]
+        return "commit3args(%s)" % ", ".join(out)
 
 
 class commit3resok:
@@ -1583,10 +1640,10 @@ class commit3resok:
     def __repr__(self):
         out = []
         if self.file_wcc is not None:
-            out += ['file_wcc=%s' % repr(self.file_wcc)]
+            out += ["file_wcc=%s" % repr(self.file_wcc)]
         if self.verf is not None:
-            out += ['verf=%s' % repr(self.verf)]
-        return 'commit3resok(%s)' % ', '.join(out)
+            out += ["verf=%s" % repr(self.verf)]
+        return "commit3resok(%s)" % ", ".join(out)
 
 
 class commit3res:
@@ -1604,10 +1661,10 @@ class commit3res:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['status=%s' % const.NFSSTAT3.get(self.status, self.status)]
+            out += ["status=%s" % const.NFSSTAT3.get(self.status, self.status)]
         if self.resok is not None:
-            out += ['resok=%s' % repr(self.resok)]
-        return 'commit3res(%s)' % ', '.join(out)
+            out += ["resok=%s" % repr(self.resok)]
+        return "commit3res(%s)" % ", ".join(out)
 
 
 class setaclargs:
@@ -1623,10 +1680,10 @@ class setaclargs:
     def __repr__(self):
         out = []
         if self.dargs is not None:
-            out += ['dargs=%s' % repr(self.dargs)]
+            out += ["dargs=%s" % repr(self.dargs)]
         if self.wargs is not None:
-            out += ['wargs=%s' % repr(self.wargs)]
-        return 'setaclargs(%s)' % ', '.join(out)
+            out += ["wargs=%s" % repr(self.wargs)]
+        return "setaclargs(%s)" % ", ".join(out)
 
 
 class mountres3_ok:
@@ -1642,10 +1699,10 @@ class mountres3_ok:
     def __repr__(self):
         out = []
         if self.fhandle is not None:
-            out += ['fhandle=%s' % repr(self.fhandle)]
+            out += ["fhandle=%s" % repr(self.fhandle)]
         if self.auth_flavors is not None:
-            out += ['auth_flavors=%s' % repr(self.auth_flavors)]
-        return 'mountres3_ok(%s)' % ', '.join(out)
+            out += ["auth_flavors=%s" % repr(self.auth_flavors)]
+        return "mountres3_ok(%s)" % ", ".join(out)
 
 
 class mountres3:
@@ -1663,10 +1720,10 @@ class mountres3:
     def __repr__(self):
         out = []
         if self.status is not None:
-            out += ['fhs_status=%s' % const.MOUNTSTAT3.get(self.status, self.status)]
+            out += ["fhs_status=%s" % const.MOUNTSTAT3.get(self.status, self.status)]
         if self.mountinfo is not None:
-            out += ['mountinfo=%s' % repr(self.mountinfo)]
-        return 'mountres3(%s)' % ', '.join(out)
+            out += ["mountinfo=%s" % repr(self.mountinfo)]
+        return "mountres3(%s)" % ", ".join(out)
 
 
 class mountbody:
@@ -1684,12 +1741,12 @@ class mountbody:
     def __repr__(self):
         out = []
         if self.ml_hostname is not None:
-            out += ['ml_hostname=%s' % repr(self.ml_hostname)]
+            out += ["ml_hostname=%s" % repr(self.ml_hostname)]
         if self.ml_directory is not None:
-            out += ['ml_directory=%s' % repr(self.ml_directory)]
+            out += ["ml_directory=%s" % repr(self.ml_directory)]
         if self.ml_next is not None:
-            out += ['ml_next=%s' % repr(self.ml_next)]
-        return 'mountbody(%s)' % ', '.join(out)
+            out += ["ml_next=%s" % repr(self.ml_next)]
+        return "mountbody(%s)" % ", ".join(out)
 
 
 class groupnode:
@@ -1705,10 +1762,10 @@ class groupnode:
     def __repr__(self):
         out = []
         if self.gr_name is not None:
-            out += ['gr_name=%s' % repr(self.gr_name)]
+            out += ["gr_name=%s" % repr(self.gr_name)]
         if self.gr_next is not None:
-            out += ['gr_next=%s' % repr(self.gr_next)]
-        return 'groupnode(%s)' % ', '.join(out)
+            out += ["gr_next=%s" % repr(self.gr_next)]
+        return "groupnode(%s)" % ", ".join(out)
 
 
 class exportnode:
@@ -1726,9 +1783,9 @@ class exportnode:
     def __repr__(self):
         out = []
         if self.ex_dir is not None:
-            out += ['ex_dir=%s' % repr(self.ex_dir)]
+            out += ["ex_dir=%s" % repr(self.ex_dir)]
         if self.ex_groups is not None:
-            out += ['ex_groups=%s' % repr(self.ex_groups)]
+            out += ["ex_groups=%s" % repr(self.ex_groups)]
         if self.ex_next is not None:
-            out += ['ex_next=%s' % repr(self.ex_next)]
-        return 'exportnode(%s)' % ', '.join(out)
+            out += ["ex_next=%s" % repr(self.ex_next)]
+        return "exportnode(%s)" % ", ".join(out)
