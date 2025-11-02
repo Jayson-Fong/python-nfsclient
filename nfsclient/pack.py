@@ -1852,7 +1852,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data
 
     def unpack_exportnode(self):
-        data = types.exportnode()
+        data = types.ExportNode()
         data.ex_dir = self.unpack_dirpath()
         data.ex_groups = self.unpack_groups()
         data.ex_next = self.unpack_exports()

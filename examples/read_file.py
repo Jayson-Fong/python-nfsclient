@@ -54,7 +54,7 @@ def read_file(
 
 
 def cli():
-    parser = argparse.ArgumentParser(description="NFS File Reader")
+    parser = argparse.ArgumentParser(description="NFSv3 File Reader")
     parser.add_argument("--host", type=str, help="NFS Server Host", required=True)
     parser.add_argument(
         "--mount-path", type=str, help="NFS Server Mount Path", required=True

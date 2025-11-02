@@ -1768,7 +1768,7 @@ class groupnode:
         return "groupnode(%s)" % ", ".join(out)
 
 
-class exportnode:
+class ExportNode:
     # XDR definition:
     # struct exportnode {
     #     dirpath ex_dir;
