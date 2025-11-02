@@ -1,9 +1,9 @@
 import inspect
 import struct
-from typing import Union, Optional, overload, Type
+from typing import Union, Optional, overload, Type, Unpack
 
 from ..const import PORTMAP_PROGRAM, PORTMAP_VERSION, PORTMAP_PORT
-from ._generic import Program
+from ._generic import Program, RPCInitializationArguments
 
 
 class Portmap(Program):
@@ -11,8 +11,8 @@ class Portmap(Program):
     program_version = PORTMAP_VERSION
     port = PORTMAP_PORT
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, port=Portmap.port, **kwargs)
+    def __init__(self, host: str, **kwargs: Unpack[RPCInitializationArguments]):
+        super().__init__(host=host, port=Portmap.port, **kwargs)
 
     def null(self):
         self.request(self.program, self.program_version, 0)

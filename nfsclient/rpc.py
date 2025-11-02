@@ -3,7 +3,7 @@ import random
 import socket
 import struct
 import time
-from typing import Optional, Union, Iterable
+from typing import Optional, Union, Iterable, TypedDict, NotRequired
 
 from . import auth as _auth
 from ._types import SupportsLenAndGetItem
@@ -20,7 +20,9 @@ class RPC:
         host,
         port,
         timeout: Optional[float] = 6000.0,
-        client_port: Optional[Union[SupportsLenAndGetItem[int], int]] = range(500, 1024),
+        client_port: Optional[Union[SupportsLenAndGetItem[int], int]] = range(
+            500, 1024
+        ),
         bind_attempts: int = 32,
         use_privileged_port: bool = True,
         unprivileged_fallback: bool = True,
@@ -137,7 +139,7 @@ class RPC:
                     except PermissionError:
                         logger.debug(
                             "Encountered permission error binding to port %d. Restricting to ports above 1023.",
-                            random_port
+                            random_port,
                         )
 
                         if not self.unprivileged_fallback:

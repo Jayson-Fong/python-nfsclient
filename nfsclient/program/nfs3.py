@@ -1,6 +1,8 @@
 import logging
 from functools import wraps
+from typing import Unpack
 
+from ._generic import RPCInitializationArguments, Program
 from ..auth import AuthenticationFlavor, NoAuthentication
 from ..const import (
     NFS3_PROCEDURE_NULL,
@@ -38,6 +40,7 @@ from ..const import (
 )
 from ..error import NFSClientError
 from ..pack import nfs_pro_v3Packer, nfs_pro_v3Unpacker
+
 from ..rpc import RPC
 from ..rtypes import (
     NFSFileHandleV3,
@@ -90,7 +93,7 @@ def fh_check(function):
                 if k.endswith("_handle"):
                     fh = kwargs.get(k)
                     break
-        if fh and not isinstance(fh, bytes):
+        if fh and not isinstance(fh, (bytes, bytearray)):
             raise TypeError("file/directory should be bytes")
         else:
             return function(*args, **kwargs)
@@ -98,9 +101,18 @@ def fh_check(function):
     return check_fh
 
 
-class NFSv3(RPC):
-    def __init__(self, *args, auth: AuthenticationFlavor = NoAuthentication, **kwargs):
-        super().__init__(*args, **kwargs)
+class NFSv3(Program):
+    program = NFS_PROGRAM
+    program_version = NFS_V3
+
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        auth: AuthenticationFlavor = NoAuthentication,
+        **kwargs: Unpack[RPCInitializationArguments],
+    ):
+        super().__init__(host=host, port=port, **kwargs)
         self.auth: AuthenticationFlavor = auth
 
     def nfs_request(self, procedure, args, auth):
