@@ -42,7 +42,7 @@ jobs:
     # These are temporary while proper tests are being worked out.
     - name: Install Project
       run: |
-        sudo python -m pip install -e .
+        sudo python -m pip install -e . --system
     - name: Test Project
       run: |
         echo "=== List Exports"
