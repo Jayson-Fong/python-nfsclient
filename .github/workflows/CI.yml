@@ -53,5 +53,5 @@ jobs:
         python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/insecure --file-path hello --output-path insecure-hello
         cat insecure-hello
         echo "=== Read Secure"
-        python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path hello --output-path secure-hello
+        sudo python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path hello --output-path secure-hello
         cat secure-hello
