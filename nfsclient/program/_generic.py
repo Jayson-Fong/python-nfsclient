@@ -1,8 +1,18 @@
 import abc
-from typing import TypedDict, Optional, NotRequired, Union
+from typing import TypedDict, Optional, NotRequired, Union, TYPE_CHECKING
 
 from .._types import SupportsLenAndGetItem
 from ..rpc import RPC
+
+
+if TYPE_CHECKING:
+    try:
+        from typing import NotRequired
+    except ImportError:
+        try:
+            from typing_extensions import NotRequired
+        except ImportError:
+            NotRequired = None
 
 
 class Program(RPC, abc.ABC):
