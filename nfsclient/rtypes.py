@@ -2,6 +2,7 @@ from . import const
 
 
 class SpecialDataV3:
+
     # XDR definition:
     # struct specdata3 {
     #     uint32 major;
@@ -21,6 +22,7 @@ class SpecialDataV3:
 
 
 class NFSFileHandleV3:
+
     # XDR definition:
     # struct nfs_fh3 {
     #     opaque data<NFS3_FHSIZE>;
@@ -36,6 +38,7 @@ class NFSFileHandleV3:
 
 
 class NFSTime:
+
     # XDR definition:
     # struct nfstime3 {
     #     uint32 seconds;
@@ -55,6 +58,7 @@ class NFSTime:
 
 
 class FileAttributeV3:
+
     # XDR definition:
     # struct fattr3 {
     #     ftype3 type;
@@ -1535,7 +1539,7 @@ class fsinfo3res:
         return "fsinfo3res(%s)" % ", ".join(out)
 
 
-class pathconf3resok:
+class PathConfigurationResponseOk:
     # XDR definition:
     # struct pathconf3resok {
     #     post_op_attr obj_attributes;
@@ -1583,7 +1587,7 @@ class pathconf3resok:
         return "pathconf3resok(%s)" % ", ".join(out)
 
 
-class pathconf3res:
+class PathConfigurationResponse:
     # XDR definition:
     # union pathconf3res switch(nfsstat3 status) {
     #     case NFS3_OK:
@@ -1604,7 +1608,7 @@ class pathconf3res:
         return "pathconf3res(%s)" % ", ".join(out)
 
 
-class commit3args:
+class CommitArgs:
     # XDR definition:
     # struct commit3args {
     #     nfs_fh3 file;
@@ -1627,7 +1631,7 @@ class commit3args:
         return "commit3args(%s)" % ", ".join(out)
 
 
-class commit3resok:
+class CommitResponseOk:
     # XDR definition:
     # struct commit3resok {
     #     wcc_data file_wcc;
@@ -1646,7 +1650,7 @@ class commit3resok:
         return "commit3resok(%s)" % ", ".join(out)
 
 
-class commit3res:
+class CommitResponse:
     # XDR definition:
     # union commit3res switch(nfsstat3 status) {
     #     case NFS3_OK:
@@ -1667,7 +1671,7 @@ class commit3res:
         return "commit3res(%s)" % ", ".join(out)
 
 
-class setaclargs:
+class SetACLArgs:
     # XDR definition:
     # struct setaclargs {
     #     diropargs3 dargs;
@@ -1686,7 +1690,7 @@ class setaclargs:
         return "setaclargs(%s)" % ", ".join(out)
 
 
-class mountres3_ok:
+class MountResponseOk:
     # XDR definition:
     # struct mountres3_ok {
     #     fhandle3 fhandle;
@@ -1705,7 +1709,7 @@ class mountres3_ok:
         return "mountres3_ok(%s)" % ", ".join(out)
 
 
-class mountres3:
+class MountResponse:
     # XDR definition:
     # union mountres3 switch(mountstat3 fhs_status) {
     #     case MNT3_OK:
@@ -1726,7 +1730,7 @@ class mountres3:
         return "mountres3(%s)" % ", ".join(out)
 
 
-class mountbody:
+class MountBody:
     # XDR definition:
     # struct mountbody {
     #     name ml_hostname;
@@ -1749,7 +1753,7 @@ class mountbody:
         return "mountbody(%s)" % ", ".join(out)
 
 
-class groupnode:
+class GroupNode:
     # XDR definition:
     # struct groupnode {
     #     name gr_name;

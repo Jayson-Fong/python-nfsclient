@@ -10,10 +10,6 @@ from .const import *
 logging.getLogger(__package__).addHandler(NullHandler())
 
 
-def release_all_rpc():
-    RPC.disconnect_all()
-
-
 __all__ = (
     "Portmap",
     "Mount",
@@ -86,5 +82,4 @@ __all__ = (
     "ACCESS3_EXTEND",
     "ACCESS3_DELETE",
     "ACCESS3_EXECUTE",
-    "release_all_rpc",
 )

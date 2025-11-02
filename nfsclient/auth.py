@@ -30,6 +30,8 @@ NoAuthentication: AuthenticationFlavor = NoneAuthenticationFlavor()
 
 class SystemAuthenticationFlavor(AuthenticationFlavor):
 
+    __slots__ = ("machine_name", "uid", "gid", "gids", "stamp")
+
     flavor: Final[int] = 1
 
     def __init__(
@@ -87,9 +89,9 @@ class SystemAuthenticationFlavor(AuthenticationFlavor):
         return self.pack_header(len(packed)) + packed
 
 
-__all__ = [
+__all__ = (
     "AuthenticationFlavor",
     "NoneAuthenticationFlavor",
     "SystemAuthenticationFlavor",
     "NoAuthentication",
-]
+)

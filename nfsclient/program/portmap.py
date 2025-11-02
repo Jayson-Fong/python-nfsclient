@@ -108,3 +108,6 @@ class Portmap(Program):
 
         (port,) = struct.unpack("!L", getport)
         return port
+
+
+__all__ = ("Portmap",)

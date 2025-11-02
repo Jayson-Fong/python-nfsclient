@@ -3,7 +3,7 @@ import random
 import socket
 import struct
 import time
-from typing import Optional, Union, Iterable, TypedDict, NotRequired
+from typing import Optional, Union, Iterable
 
 from . import auth as _auth
 from ._types import SupportsLenAndGetItem
@@ -13,12 +13,11 @@ logger = logging.getLogger(__package__)
 
 
 class RPC:
-    connections = list()
 
     def __init__(
         self,
-        host,
-        port,
+        host: str,
+        port: int,
         timeout: Optional[float] = 6000.0,
         client_port: Optional[Union[SupportsLenAndGetItem[int], int]] = range(
             500, 1024
@@ -27,13 +26,13 @@ class RPC:
         use_privileged_port: bool = True,
         unprivileged_fallback: bool = True,
     ):
-        self.host = host
-        self.port = port
+        self.host: str = host
+        self.port: int = port
         self.timeout: Optional[float] = timeout
         self.bind_attempts: int = bind_attempts
         self.use_privileged_port: bool = use_privileged_port
         self.unprivileged_fallback: bool = unprivileged_fallback
-        self.client = None
+        self.client: Optional[socket.socket] = None
 
         if not isinstance(client_port, Iterable):
             client_port = [client_port]
@@ -42,15 +41,15 @@ class RPC:
 
     def request(
         self,
-        program,
-        program_version,
-        procedure,
-        data=None,
-        message_type=0,
-        version=2,
+        program: int,
+        program_version: int,
+        procedure: int,
+        data: Optional[Union[bytes, bytearray]] = None,
+        message_type: int= 0,
+        version: int = 2,
         auth: _auth.AuthenticationFlavor = _auth.NoAuthentication,
+        rpc_xid: Optional[int] = None,
     ) -> bytes:
-        rpc_xid = int(time.time())
         rpc_message_type = message_type  # 0=call
         rpc_rpc_version = version
         rpc_program = program
@@ -62,7 +61,7 @@ class RPC:
         proto = struct.pack(
             # Remote Procedure Call
             "!LLLLLL",
-            rpc_xid,
+            int(time.time()) if rpc_xid is None else rpc_xid,
             rpc_message_type,
             rpc_rpc_version,
             rpc_program,
@@ -152,47 +151,34 @@ class RPC:
                         continue
 
             self.client.connect(sockaddr)
-            RPC.connections.append(self)
 
     def disconnect(self) -> None:
-        self.client.close()
-        logger.debug("Port %s released" % self.client_port)
+        try:
+            sock_name: str = self.client.getsockname()
+            self.client.close()
+            logger.debug("Port released: %s:%d", sock_name[0], sock_name[1])
+        except OSError:
+            pass
 
-    @classmethod
-    def disconnect_all(cls) -> None:
-        counter = 0
-        for item in cls.connections:
-            try:
-                item.client.close()
-                counter += 1
-            except:
-                pass
-        logger.debug("Disconnect all connecting rpc sockets, amount: %d" % counter)
+        self.client = None
 
     def recv(self) -> Optional[bytes]:
         rpc_response_size: bytes = bytearray()
 
-        try:
-            while len(rpc_response_size) != 4:
-                rpc_response_size = self.client.recv(4)
+        while len(rpc_response_size) != 4:
+            rpc_response_size = self.client.recv(4)
 
-            if len(rpc_response_size) != 4:
-                raise RPCProtocolError(
-                    "incorrect recv response size: %d" % len(rpc_response_size)
-                )
-            response_size: int = struct.unpack("!L", rpc_response_size)[0] & 0x7FFFFFFF
+        if len(rpc_response_size) != 4:
+            raise RPCProtocolError(f"Incorrect response size received: {len(rpc_response_size)}")
+        response_size: int = struct.unpack("!L", rpc_response_size)[0] & 0x7FFFFFFF
 
-            rpc_response: bytes = rpc_response_size
-            while len(rpc_response) < response_size:
-                rpc_response = rpc_response + self.client.recv(
-                    response_size - len(rpc_response) + 4
-                )
+        rpc_response: bytes = rpc_response_size
+        while len(rpc_response) < response_size:
+            rpc_response = rpc_response + self.client.recv(
+                response_size - len(rpc_response) + 4
+            )
 
-            return rpc_response
-        except Exception as e:
-            logger.exception(e)
-
-        return None
+        return rpc_response
 
     def __enter__(self) -> "RPC":
         self.connect()

@@ -8,4 +8,4 @@ class SupportsLenAndGetItem(Protocol[_T_co]):
     def __getitem__(self, k: int, /) -> _T_co: ...
 
 
-__all__ = ["SupportsLenAndGetItem"]
+__all__ = ("SupportsLenAndGetItem",)

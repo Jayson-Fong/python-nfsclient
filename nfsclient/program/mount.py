@@ -5,7 +5,7 @@ from typing import Optional, Unpack
 
 from ..auth import AuthenticationFlavor, NoAuthentication
 from ..const import MOUNT_PROGRAM, MOUNT_V3, MNT3_OK, MOUNTSTAT3, MNT3ERR_NOTSUPP
-from ..pack import nfs_pro_v3Unpacker
+from ..pack import NFSv3Unpacker
 from ._generic import Program, RPCInitializationArguments
 
 logger = logging.getLogger(__package__)
@@ -21,6 +21,8 @@ class Mount(Program):
     program = MOUNT_PROGRAM
     program_version = MOUNT_V3
 
+    __slots__ = ("path", "auth")
+
     def __init__(
         self,
         host: str,
@@ -29,7 +31,7 @@ class Mount(Program):
         **kwargs: Unpack[RPCInitializationArguments],
     ):
         super().__init__(host=host, port=port, **kwargs)
-        self.path = None
+        self.path: Optional[str] = None
         self.auth: AuthenticationFlavor = auth
 
     def null(self, auth: Optional[AuthenticationFlavor] = None):
@@ -38,7 +40,7 @@ class Mount(Program):
 
         return MountMessage(MNT3_OK, MOUNTSTAT3[MNT3_OK])
 
-    def mnt(self, path, auth: Optional[AuthenticationFlavor] = None):
+    def mnt(self, path: str, auth: Optional[AuthenticationFlavor] = None):
         data = struct.pack("!L", len(path))
         data += path.encode()
         data += b"\x00" * ((4 - len(path) % 4) % 4)
@@ -52,7 +54,7 @@ class Mount(Program):
             auth=auth or self.auth,
         )
 
-        unpacker = nfs_pro_v3Unpacker(data)
+        unpacker = NFSv3Unpacker(data)
         res = unpacker.unpack_mountres3()
         if res["status"] == MNT3_OK:
             self.path = path
@@ -83,8 +85,8 @@ class Mount(Program):
         logger.debug("Get mount export on %s" % self.host)
         export = self.request(self.program, self.program_version, 5)
 
-        unpacker = nfs_pro_v3Unpacker(export)
+        unpacker = NFSv3Unpacker(export)
         return unpacker.unpack_exports()
 
 
-__all__ = ["Mount"]
+__all__ = ("Mount",)

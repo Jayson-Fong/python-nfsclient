@@ -1,4 +1,6 @@
 import struct
+from io import BytesIO
+
 from . import const
 from . import rtypes as types
 
@@ -11,19 +13,12 @@ except ImportError:
     from xdrlib3 import Error as XDRError
 
 
-class nfs_pro_v3Packer(Packer):
-    pack_hyper = Packer.pack_hyper
-    pack_string = Packer.pack_string
-    pack_int = Packer.pack_int
-    pack_float = Packer.pack_float
-    pack_uint = Packer.pack_uint
-    pack_opaque = Packer.pack_opaque
-    pack_double = Packer.pack_double
-    pack_unsigned = Packer.pack_uint
-    pack_quadruple = Packer.pack_double
-    pack_uhyper = Packer.pack_uhyper
-    pack_bool = Packer.pack_bool
-    pack_uint32 = pack_uint64 = pack_uint
+class NFSv3Packer(Packer):
+
+    _Packer__buf: BytesIO
+
+    def pack_uint32(self, x):
+        self.pack_uint(x)
 
     def pack_uint64(self, x):
         try:
@@ -47,7 +42,7 @@ class nfs_pro_v3Packer(Packer):
         self.pack_fopaque(const.NFS3_WRITEVERFSIZE, data)
 
     def pack_nfsstat3(self, data):
-        if data not in [
+        if data not in (
             const.NFS3_OK,
             const.NFS3ERR_PERM,
             const.NFS3ERR_NOENT,
@@ -77,12 +72,12 @@ class nfs_pro_v3Packer(Packer):
             const.NFS3ERR_SERVERFAULT,
             const.NFS3ERR_BADTYPE,
             const.NFS3ERR_JUKEBOX,
-        ]:
+        ):
             raise XDRError("value=%s not in enum nfsstat3" % data)
         self.pack_int(data)
 
     def pack_ftype3(self, data):
-        if data not in [
+        if data not in (
             const.NF3REG,
             const.NF3DIR,
             const.NF3BLK,
@@ -90,7 +85,7 @@ class nfs_pro_v3Packer(Packer):
             const.NF3LNK,
             const.NF3SOCK,
             const.NF3FIFO,
-        ]:
+        ):
             raise XDRError("value=%s not in enum ftype3" % data)
         self.pack_int(data)
 
@@ -198,14 +193,17 @@ class nfs_pro_v3Packer(Packer):
     def pack_wcc_data(self, data):
         if data.before is None:
             raise TypeError("data.before == None")
+
         self.pack_pre_op_attr(data.before)
         if data.after is None:
             raise TypeError("data.after == None")
+
         self.pack_post_op_attr(data.after)
 
     def pack_post_op_fh3(self, data):
         if data.present is None:
             raise TypeError("data.present == None")
+
         self.pack_bool(data.present)
         if data.present == const.TRUE:
             if data.handle is None:
@@ -239,11 +237,11 @@ class nfs_pro_v3Packer(Packer):
             pass
 
     def pack_time_how(self, data):
-        if data not in [
+        if data not in (
             const.DONT_CHANGE,
             const.SET_TO_SERVER_TIME,
             const.SET_TO_CLIENT_TIME,
-        ]:
+        ):
             raise XDRError("value=%s not in enum time_how" % data)
         self.pack_int(data)
 
@@ -469,7 +467,7 @@ class nfs_pro_v3Packer(Packer):
             self.pack_post_op_attr(data.resfail)
 
     def pack_stable_how(self, data):
-        if data not in [const.UNSTABLE, const.DATA_SYNC, const.FILE_SYNC]:
+        if data not in (const.UNSTABLE, const.DATA_SYNC, const.FILE_SYNC):
             raise XDRError("value=%s not in enum stable_how" % data)
         self.pack_int(data)
 
@@ -518,7 +516,7 @@ class nfs_pro_v3Packer(Packer):
             self.pack_wcc_data(data.resfail)
 
     def pack_createmode3(self, data):
-        if data not in [const.UNCHECKED, const.GUARDED, const.EXCLUSIVE]:
+        if data not in (const.UNCHECKED, const.GUARDED, const.EXCLUSIVE):
             raise XDRError("value=%s not in enum createmode3" % data)
         self.pack_int(data)
 
@@ -540,41 +538,51 @@ class nfs_pro_v3Packer(Packer):
     def pack_create3args(self, data):
         if data.where is None:
             raise TypeError("data.where == None")
+
         self.pack_diropargs3(data.where)
         if data.how is None:
             raise TypeError("data.how == None")
+
         self.pack_createhow3(data.how)
 
     def pack_mkdir3args(self, data):
         if data.where is None:
             raise TypeError("data.where == None")
+
         self.pack_diropargs3(data.where)
         if data.attributes is None:
             raise TypeError("data.attributes == None")
+
         self.pack_sattr3(data.attributes)
 
     def pack_symlinkdata3(self, data):
         if data.symlink_attributes is None:
             raise TypeError("data.symlink_attributes == None")
+
         self.pack_sattr3(data.symlink_attributes)
         if data.symlink_data is None:
             raise TypeError("data.symlink_data == None")
+
         self.pack_nfspath3(data.symlink_data)
 
     def pack_symlink3args(self, data):
         if data.where is None:
             raise TypeError("data.where == None")
+
         self.pack_diropargs3(data.where)
         if data.symlink is None:
             raise TypeError("data.symlink == None")
+
         self.pack_symlinkdata3(data.symlink)
 
     def pack_devicedata3(self, data):
         if data.dev_attributes is None:
             raise TypeError("data.dev_attributes == None")
+
         self.pack_sattr3(data.dev_attributes)
         if data.spec is None:
             raise TypeError("data.spec == None")
+
         self.pack_specdata3(data.spec)
 
     def pack_mknoddata3(self, data):
@@ -970,7 +978,7 @@ class nfs_pro_v3Packer(Packer):
         self.pack_opaque(data)
 
     def pack_mountstat3(self, data):
-        if data not in [
+        if data not in (
             const.MNT3_OK,
             const.MNT3ERR_PERM,
             const.MNT3ERR_NOENT,
@@ -981,7 +989,7 @@ class nfs_pro_v3Packer(Packer):
             const.MNT3ERR_NAMETOOLONG,
             const.MNT3ERR_NOTSUPP,
             const.MNT3ERR_SERVERFAULT,
-        ]:
+        ):
             raise XDRError("value=%s not in enum mountstat3" % data)
         self.pack_int(data)
 
@@ -1050,19 +1058,13 @@ class nfs_pro_v3Packer(Packer):
         self.pack_exports(data.ex_next)
 
 
-class nfs_pro_v3Unpacker(Unpacker):
-    unpack_hyper = Unpacker.unpack_hyper
-    unpack_string = Unpacker.unpack_string
-    unpack_int = Unpacker.unpack_int
-    unpack_float = Unpacker.unpack_float
-    unpack_uint = Unpacker.unpack_uint
-    unpack_opaque = Unpacker.unpack_opaque
-    unpack_double = Unpacker.unpack_double
-    unpack_unsigned = Unpacker.unpack_uint
-    unpack_quadruple = Unpacker.unpack_double
-    unpack_uhyper = Unpacker.unpack_uhyper
-    unpack_bool = Unpacker.unpack_bool
-    unpack_uint32 = unpack_uint
+class NFSv3Unpacker(Unpacker):
+
+    _Unpacker__pos: int
+    _Unpacker__buf: BytesIO
+
+    def unpack_uint32(self):
+        return self.unpack_uint()
 
     def unpack_uint64(self):
         i = self._Unpacker__pos
@@ -1094,7 +1096,7 @@ class nfs_pro_v3Unpacker(Unpacker):
 
     def unpack_nfsstat3(self):
         data = self.unpack_int()
-        if data not in [
+        if data not in (
             const.NFS3_OK,
             const.NFS3ERR_PERM,
             const.NFS3ERR_NOENT,
@@ -1124,13 +1126,13 @@ class nfs_pro_v3Unpacker(Unpacker):
             const.NFS3ERR_SERVERFAULT,
             const.NFS3ERR_BADTYPE,
             const.NFS3ERR_JUKEBOX,
-        ]:
+        ):
             raise XDRError("value=%s not in enum nfsstat3" % data)
         return data
 
     def unpack_ftype3(self):
         data = self.unpack_int()
-        if data not in [
+        if data not in (
             const.NF3REG,
             const.NF3DIR,
             const.NF3BLK,
@@ -1138,7 +1140,7 @@ class nfs_pro_v3Unpacker(Unpacker):
             const.NF3LNK,
             const.NF3SOCK,
             const.NF3FIFO,
-        ]:
+        ):
             raise XDRError("value=%s not in enum ftype3" % data)
         return data
 
@@ -1244,11 +1246,11 @@ class nfs_pro_v3Unpacker(Unpacker):
 
     def unpack_time_how(self):
         data = self.unpack_int()
-        if data not in [
+        if data not in (
             const.DONT_CHANGE,
             const.SET_TO_SERVER_TIME,
             const.SET_TO_CLIENT_TIME,
-        ]:
+        ):
             raise XDRError("value=%s not in enum time_how" % data)
         return data
 
@@ -1426,7 +1428,7 @@ class nfs_pro_v3Unpacker(Unpacker):
 
     def unpack_stable_how(self):
         data = self.unpack_int()
-        if data not in [const.UNSTABLE, const.DATA_SYNC, const.FILE_SYNC]:
+        if data not in (const.UNSTABLE, const.DATA_SYNC, const.FILE_SYNC):
             raise XDRError("value=%s not in enum stable_how" % data)
         return data
 
@@ -1458,7 +1460,7 @@ class nfs_pro_v3Unpacker(Unpacker):
 
     def unpack_createmode3(self):
         data = self.unpack_int()
-        if data not in [const.UNCHECKED, const.GUARDED, const.EXCLUSIVE]:
+        if data not in (const.UNCHECKED, const.GUARDED, const.EXCLUSIVE):
             raise XDRError("value=%s not in enum createmode3" % data)
         return data
 
@@ -1723,7 +1725,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_pathconf3resok(self, data_format="json"):
-        data = types.pathconf3resok()
+        data = types.PathConfigurationResponseOk()
         data.obj_attributes = self.unpack_post_op_attr(data_format)
         data.linkmax = self.unpack_uint32()
         data.name_max = self.unpack_uint32()
@@ -1734,7 +1736,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_pathconf3res(self, data_format="json"):
-        data = types.pathconf3res()
+        data = types.PathConfigurationResponse()
         data.status = self.unpack_nfsstat3()
         if data.status == const.NFS3_OK:
             data.resok = self.unpack_pathconf3resok(data_format)
@@ -1743,20 +1745,20 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_commit3args(self, data_format="json"):
-        data = types.commit3args()
+        data = types.CommitArgs()
         data.file = self.unpack_nfs_fh3(data_format)
         data.offset = self.unpack_uint64()
         data.count = self.unpack_uint32()
         return data.__dict__ if data_format == "json" else data
 
     def unpack_commit3resok(self, data_format="json"):
-        data = types.commit3resok()
+        data = types.CommitResponseOk()
         data.file_wcc = self.unpack_wcc_data(data_format)
         data.verf = self.unpack_writeverf3()
         return data.__dict__ if data_format == "json" else data
 
     def unpack_commit3res(self, data_format="json"):
-        data = types.commit3res()
+        data = types.CommitResponse()
         data.status = self.unpack_nfsstat3()
         if data.status == const.NFS3_OK:
             data.resok = self.unpack_commit3resok(data_format)
@@ -1765,7 +1767,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_setaclargs(self, data_format="json"):
-        data = types.setaclargs()
+        data = types.SetACLArgs()
         data.dargs = self.unpack_diropargs3(data_format)
         data.wargs = self.unpack_write3args(data_format)
         return data.__dict__ if data_format == "json" else data
@@ -1790,7 +1792,7 @@ class nfs_pro_v3Unpacker(Unpacker):
 
     def unpack_mountstat3(self):
         data = self.unpack_int()
-        if data not in [
+        if data not in (
             const.MNT3_OK,
             const.MNT3ERR_PERM,
             const.MNT3ERR_NOENT,
@@ -1801,18 +1803,18 @@ class nfs_pro_v3Unpacker(Unpacker):
             const.MNT3ERR_NAMETOOLONG,
             const.MNT3ERR_NOTSUPP,
             const.MNT3ERR_SERVERFAULT,
-        ]:
+        ):
             raise XDRError("value=%s not in enum mountstat3" % data)
         return data
 
     def unpack_mountres3_ok(self, data_format="json"):
-        data = types.mountres3_ok()
+        data = types.MountResponseOk()
         data.fhandle = self.unpack_fhandle3()
         data.auth_flavors = self.unpack_array(self.unpack_int)
         return data.__dict__ if data_format == "json" else data
 
     def unpack_mountres3(self, data_format="json"):
-        data = types.mountres3()
+        data = types.MountResponse()
         data.status = self.unpack_mountstat3()
         if data.status == const.MNT3_OK:
             data.mountinfo = self.unpack_mountres3_ok(data_format)
@@ -1827,7 +1829,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data
 
     def unpack_mountbody(self, data_format="json"):
-        data = types.mountbody()
+        data = types.MountBody()
         data.ml_hostname = self.unpack_name()
         data.ml_directory = self.unpack_dirpath()
         data.ml_next = self.unpack_mountlist()
@@ -1840,7 +1842,7 @@ class nfs_pro_v3Unpacker(Unpacker):
         return data
 
     def unpack_groupnode(self):
-        data = types.groupnode()
+        data = types.GroupNode()
         data.gr_name = self.unpack_name()
         data.gr_next = self.unpack_groups()
         return data
