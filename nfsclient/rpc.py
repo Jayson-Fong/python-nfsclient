@@ -1,10 +1,12 @@
 import logging
-import struct
+import random
 import socket
+import struct
 import time
-from random import randint
+from typing import Optional, Union, Iterable
 
 from . import auth as _auth
+from ._types import SupportsLenAndGetItem
 from .error import RPCProtocolError
 
 logger = logging.getLogger(__package__)
@@ -13,12 +15,28 @@ logger = logging.getLogger(__package__)
 class RPC:
     connections = list()
 
-    def __init__(self, host, port, timeout):
+    def __init__(
+        self,
+        host,
+        port,
+        timeout: Optional[float] = 6000.0,
+        client_port: Optional[Union[SupportsLenAndGetItem[int], int]] = range(500, 1024),
+        bind_attempts: int = 32,
+        use_privileged_port: bool = True,
+        unprivileged_fallback: bool = True,
+    ):
         self.host = host
         self.port = port
-        self.timeout = timeout
+        self.timeout: Optional[float] = timeout
+        self.bind_attempts: int = bind_attempts
+        self.use_privileged_port: bool = use_privileged_port
+        self.unprivileged_fallback: bool = unprivileged_fallback
         self.client = None
-        self.client_port = None
+
+        if not isinstance(client_port, Iterable):
+            client_port = [client_port]
+
+        self.client_port: SupportsLenAndGetItem[int] = client_port
 
     def request(
         self,
@@ -29,7 +47,7 @@ class RPC:
         message_type=0,
         version=2,
         auth: _auth.AuthenticationFlavor = _auth.NoAuthentication,
-    ):
+    ) -> bytes:
         rpc_xid = int(time.time())
         rpc_message_type = message_type  # 0=call
         rpc_rpc_version = version
@@ -69,7 +87,7 @@ class RPC:
             self.client.send(proto)
 
             last_fragment = False
-            data = b""
+            data = bytearray()
 
             while not last_fragment:
                 response = self.recv()
@@ -97,42 +115,49 @@ class RPC:
 
         return data
 
-    def connect(self):
-        # TODO: Add IPv6 support
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client.settimeout(self.timeout)
-        # if we are running as root, use a source port between 500 and 1024 (NFS security options...)
-        random_port = None
-        try:
-            i = 0
-            while True:
-                try:
-                    random_port = randint(500, 1023)
-                    i += 1
-                    self.client.bind(("", random_port))
-                    self.client_port = random_port
-                    logger.debug("Port %d occupied" % self.client_port)
-                    break
-                except:
-                    logger.warning(
-                        "Socket port binding with %d failed in loop %d, try again."
-                        % (random_port, i)
-                    )
-                    continue
-        except Exception as e:
-            logger.error(e)
+    def connect(self) -> None:
+        # This may raise an exception if the host is unresolvable or the port is
+        # invalid, but if that's the case, we can't fix it anyway, so let it error!
+        address_info = socket.getaddrinfo(
+            self.host, self.port, socket.AF_UNSPEC, socket.SOCK_STREAM
+        )
 
-        self.client.connect((self.host, self.port))
+        # noinspection SpellCheckingInspection
+        for family, socktype, proto, canonname, sockaddr in address_info:
+            self.client = socket.socket(family, socktype, proto)
+            self.client.settimeout(self.timeout)
 
-        # TODO: Avoid this hack
-        RPC.connections.append(self)
+            if self.use_privileged_port:
+                for _ in range(self.bind_attempts):
+                    random_port: int = random.choice(self.client_port)
 
-    def disconnect(self):
+                    try:
+                        self.client.bind(("", random_port))
+                        break
+                    except PermissionError:
+                        logger.debug(
+                            "Encountered permission error binding to port %d. Restricting to ports above 1023.",
+                            random_port
+                        )
+
+                        if not self.unprivileged_fallback:
+                            raise
+                    except socket.error as e:
+                        if e.errno == 98:
+                            logger.debug("Port %d occupied", random_port)
+
+                        logger.exception("Failed binding to port %d", random_port)
+                        continue
+
+            self.client.connect(sockaddr)
+            RPC.connections.append(self)
+
+    def disconnect(self) -> None:
         self.client.close()
         logger.debug("Port %s released" % self.client_port)
 
     @classmethod
-    def disconnect_all(cls):
+    def disconnect_all(cls) -> None:
         counter = 0
         for item in cls.connections:
             try:
@@ -142,8 +167,8 @@ class RPC:
                 pass
         logger.debug("Disconnect all connecting rpc sockets, amount: %d" % counter)
 
-    def recv(self):
-        rpc_response_size = b""
+    def recv(self) -> Optional[bytes]:
+        rpc_response_size: bytes = bytearray()
 
         try:
             while len(rpc_response_size) != 4:
@@ -153,9 +178,9 @@ class RPC:
                 raise RPCProtocolError(
                     "incorrect recv response size: %d" % len(rpc_response_size)
                 )
-            response_size = struct.unpack("!L", rpc_response_size)[0] & 0x7FFFFFFF
+            response_size: int = struct.unpack("!L", rpc_response_size)[0] & 0x7FFFFFFF
 
-            rpc_response = rpc_response_size
+            rpc_response: bytes = rpc_response_size
             while len(rpc_response) < response_size:
                 rpc_response = rpc_response + self.client.recv(
                     response_size - len(rpc_response) + 4
@@ -165,9 +190,11 @@ class RPC:
         except Exception as e:
             logger.exception(e)
 
+        return None
+
     def __enter__(self) -> "RPC":
         self.connect()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         self.disconnect()

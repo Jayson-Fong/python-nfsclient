@@ -1,6 +1,7 @@
 import logging
 from functools import wraps
 
+from ..auth import AuthenticationFlavor, NoAuthentication
 from ..const import (
     NFS3_PROCEDURE_NULL,
     NFS3_PROCEDURE_GETATTR,
@@ -98,9 +99,9 @@ def fh_check(function):
 
 
 class NFSv3(RPC):
-    def __init__(self, host, port, timeout, auth):
-        super().__init__(host=host, port=port, timeout=timeout)
-        self.auth = auth
+    def __init__(self, *args, auth: AuthenticationFlavor = NoAuthentication, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.auth: AuthenticationFlavor = auth
 
     def nfs_request(self, procedure, args, auth):
         return self.request(NFS_PROGRAM, NFS_V3, procedure, data=args, auth=auth)

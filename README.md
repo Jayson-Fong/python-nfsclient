@@ -17,3 +17,17 @@
 # Purpose
 
 A Python package providing a NFSv3 client.
+
+# Usage
+
+Display exported filesystems:
+```
+from nfsclient import Portmap, Mount
+
+host = "10.1.2.3"
+with Portmap(host) as portmap:
+    port = portmap.getport(Mount)
+
+with Mount(host, port) as mount:
+    print(mount.export())
+```

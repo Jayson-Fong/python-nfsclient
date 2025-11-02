@@ -2,6 +2,7 @@ import logging
 import struct
 from dataclasses import dataclass
 
+from ..auth import AuthenticationFlavor, NoAuthentication
 from ..const import MOUNT_PROGRAM, MOUNT_V3, MNT3_OK, MOUNTSTAT3, MNT3ERR_NOTSUPP
 from ..pack import nfs_pro_v3Unpacker
 from ._generic import Program
@@ -19,10 +20,10 @@ class Mount(Program):
     program = MOUNT_PROGRAM
     program_version = MOUNT_V3
 
-    def __init__(self, host, port, timeout, auth=None):
-        super().__init__(host=host, port=port, timeout=timeout)
+    def __init__(self, *args, auth: AuthenticationFlavor = NoAuthentication, **kwargs):
+        super().__init__(*args, **kwargs)
         self.path = None
-        self.auth = auth
+        self.auth: AuthenticationFlavor = auth
 
     def null(self, auth=None):
         logger.debug("Mount NULL on %s" % self.host)

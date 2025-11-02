@@ -11,8 +11,8 @@ class Portmap(Program):
     program_version = PORTMAP_VERSION
     port = PORTMAP_PORT
 
-    def __init__(self, host, timeout=6000):
-        super().__init__(host, Portmap.port, timeout)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, port=Portmap.port, **kwargs)
 
     def null(self):
         self.request(self.program, self.program_version, 0)
