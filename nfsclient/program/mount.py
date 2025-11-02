@@ -1,5 +1,6 @@
 import logging
 import struct
+import sys
 from dataclasses import dataclass
 from typing import Optional, TYPE_CHECKING
 
@@ -20,10 +21,19 @@ from ._generic import Program, RPCInitializationArguments
 logger = logging.getLogger(__package__)
 
 
-@dataclass(slots=True)
+DATACLASS_KWARGS = {}
+if sys.version_info >= (3, 10):
+    # 'slots' was added to dataclass in Python 3.10
+    DATACLASS_KWARGS['slots'] = True
+
+
+@dataclass(**DATACLASS_KWARGS)
 class MountMessage:
     status: int
     message: str
+
+
+del DATACLASS_KWARGS
 
 
 class Mount(Program):
