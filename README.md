@@ -20,7 +20,7 @@ A generic, open source client for Linux NFSv3 file systems. The client is operat
 implemented in Python and supporting Python versions 3.8 and later.
 
 This package is a fork of [pyNfsClient](https://pypi.org/project/pyNfsClient/), updated to provide a more Pythonic API
-and broader support across operating systems and network configurations, such as support for:
+and broader support across operating systems and network configurations, such aa:
 - Support for IPv6
 - Falling back to non-privileged source ports on permission errors (see [RFC 2623](https://datatracker.ietf.org/doc/html/rfc2623#section-2.1))
 
