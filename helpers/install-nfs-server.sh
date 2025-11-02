@@ -23,7 +23,9 @@ sudo systemctl restart nfs-kernel-server
 
 # Prepare Files
 sudo mkdir -p /mnt/nfs/secure/example/nfs/directory
+echo "Hello World" | sudo tee -a /mnt/nfs/secure/hello
 echo "Hello World" | sudo tee -a /mnt/nfs/secure/example/nfs/directory/file
 
 sudo mkdir -p /mnt/nfs/insecure/example/nfs/directory
+echo "Hello World" | sudo tee -a /mnt/nfs/insecure/hello
 echo "Hello World" | sudo tee -a /mnt/nfs/insecure/example/nfs/directory/file
