@@ -3,7 +3,7 @@ import struct
 from dataclasses import dataclass
 from typing import Optional, Unpack
 
-from ..auth import AuthenticationFlavor, NoAuthentication
+from ..auth import AuthenticationFlavor, NO_AUTHENTICATION
 from ..const import MOUNT_PROGRAM, MOUNT_V3, MNT3_OK, MOUNTSTAT3, MNT3ERR_NOTSUPP
 from ..pack import NFSv3Unpacker
 from ._generic import Program, RPCInitializationArguments
@@ -27,7 +27,7 @@ class Mount(Program):
         self,
         host: str,
         port: int,
-        auth: AuthenticationFlavor = NoAuthentication,
+        auth: AuthenticationFlavor = NO_AUTHENTICATION,
         **kwargs: Unpack[RPCInitializationArguments],
     ):
         super().__init__(host=host, port=port, **kwargs)

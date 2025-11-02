@@ -46,7 +46,7 @@ class RPC:
         data: Optional[Union[bytes, bytearray]] = None,
         message_type: int = 0,
         version: int = 2,
-        auth: _auth.AuthenticationFlavor = _auth.NoAuthentication,
+        auth: _auth.AuthenticationFlavor = _auth.NO_AUTHENTICATION,
         rpc_xid: Optional[int] = None,
     ) -> bytes:
         rpc_message_type = message_type  # 0=call
@@ -83,37 +83,32 @@ class RPC:
 
         proto = struct.pack("!L", rpc_fragment_header) + proto
 
-        try:
-            self.client.send(proto)
+        self.client.send(proto)
 
-            last_fragment = False
-            data = bytearray()
+        last_fragment = False
+        data = bytearray()
 
-            while not last_fragment:
-                response = self.recv()
+        while not last_fragment:
+            response = self.recv()
 
-                last_fragment = struct.unpack("!L", response[:4])[0] & 0x80000000 != 0
+            last_fragment = struct.unpack("!L", response[:4])[0] & 0x80000000 != 0
 
-                data += response[4:]
+            data += response[4:]
 
-            rpc = data[:24]
-            (
-                rpc_XID,
-                rpc_Message_Type,
-                rpc_Reply_State,
-                rpc_Verifier_Flavor,
-                rpc_Verifier_Length,
-                rpc_Accept_State,
-            ) = struct.unpack("!LLLLLL", rpc)
+        rpc = data[:24]
+        (
+            rpc_XID,
+            rpc_Message_Type,
+            rpc_Reply_State,
+            rpc_Verifier_Flavor,
+            rpc_Verifier_Length,
+            rpc_Accept_State,
+        ) = struct.unpack("!LLLLLL", rpc)
 
-            if rpc_Message_Type != 1 or rpc_Reply_State != 0 or rpc_Accept_State != 0:
-                raise Exception("RPC protocol error")
+        if rpc_Message_Type != 1 or rpc_Reply_State != 0 or rpc_Accept_State != 0:
+            raise RPCProtocolError("RPC protocol error")
 
-            data = data[24:]
-        except Exception as e:
-            logger.exception(e)
-
-        return data
+        return data[24:]
 
     def connect(self) -> None:
         # This may raise an exception if the host is unresolvable or the port is
@@ -136,7 +131,8 @@ class RPC:
                         break
                     except PermissionError:
                         logger.debug(
-                            "Encountered permission error binding to port %d. Restricting to ports above 1023.",
+                            "Encountered permission error binding to "
+                            "port %d. Restricting to ports above 1023.",
                             random_port,
                         )
 

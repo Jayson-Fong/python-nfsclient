@@ -56,7 +56,9 @@ def display_programs(programs: List[Dict[str, Any]]):
 
 
 def cli():
-    parser: argparse.ArgumentParser = argparse.ArgumentParser(description="RPC Portmapper Dump")
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(
+        description="RPC Portmapper Dump"
+    )
     parser.add_argument("--host", type=str, help="Host", required=True)
 
     args: argparse.Namespace = parser.parse_args()

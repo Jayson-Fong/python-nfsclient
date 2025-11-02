@@ -3,7 +3,7 @@ from functools import wraps
 from typing import Unpack
 
 from ._generic import RPCInitializationArguments, Program
-from ..auth import AuthenticationFlavor, NoAuthentication
+from ..auth import AuthenticationFlavor, NO_AUTHENTICATION
 from ..const import (
     NFS3_PROCEDURE_NULL,
     NFS3_PROCEDURE_GETATTR,
@@ -81,7 +81,7 @@ def fh_check(function):
     def check_fh(*args, **kwargs):
         logger.debug(
             "Checking if first argument is bytes type as file/directory handler for [%s]",
-            function.__name__
+            function.__name__,
         )
         fh = None
         if len(args) > 1:
@@ -93,8 +93,8 @@ def fh_check(function):
                     break
         if fh and not isinstance(fh, (bytes, bytearray)):
             raise TypeError("file/directory should be bytes")
-        else:
-            return function(*args, **kwargs)
+
+        return function(*args, **kwargs)
 
     return check_fh
 
@@ -109,7 +109,7 @@ class NFSv3(Program):
         self,
         host: str,
         port: int,
-        auth: AuthenticationFlavor = NoAuthentication,
+        auth: AuthenticationFlavor = NO_AUTHENTICATION,
         **kwargs: Unpack[RPCInitializationArguments],
     ):
         super().__init__(host=host, port=port, **kwargs)
@@ -119,9 +119,7 @@ class NFSv3(Program):
         return self.request(NFS_PROGRAM, NFS_V3, procedure, data=args, auth=auth)
 
     def null(self):
-        logger.debug(
-            "NFSv3 procedure %d: NULL on %s", NFS3_PROCEDURE_NULL, self.host
-        )
+        logger.debug("NFSv3 procedure %d: NULL on %s", NFS3_PROCEDURE_NULL, self.host)
         self.request(NFS_PROGRAM, NFS_V3, NFS3_PROCEDURE_NULL)
 
         return {"status": 0, "resok": None}
@@ -212,7 +210,7 @@ class NFSv3(Program):
         )
         packer.pack_setattr3args(
             setattr3args(
-                object=NFSFileHandleV3(file_handle),
+                obj=NFSFileHandleV3(file_handle),
                 new_attributes=attrs,
                 guard=sattrguard3(check=check, ctime=obj_ctime),
             )
@@ -249,7 +247,7 @@ class NFSv3(Program):
     def access(self, file_handle, access_option, auth=None):
         packer = NFSv3Packer()
         packer.pack_access3args(
-            access3args(object=NFSFileHandleV3(file_handle), access=access_option)
+            access3args(obj=NFSFileHandleV3(file_handle), access=access_option)
         )
 
         logger.debug(
@@ -286,9 +284,7 @@ class NFSv3(Program):
             )
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: READ on %s", NFS3_PROCEDURE_READ, self.host
-        )
+        logger.debug("NFSv3 procedure %d: READ on %s", NFS3_PROCEDURE_READ, self.host)
         data = self.nfs_request(
             NFS3_PROCEDURE_READ, packer.get_buffer(), auth if auth else self.auth
         )
@@ -309,9 +305,7 @@ class NFSv3(Program):
             )
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: WRITE on %s", NFS3_PROCEDURE_WRITE, self.host
-        )
+        logger.debug("NFSv3 procedure %d: WRITE on %s", NFS3_PROCEDURE_WRITE, self.host)
         res = self.nfs_request(
             NFS3_PROCEDURE_WRITE, packer.get_buffer(), auth if auth else self.auth
         )
@@ -408,9 +402,7 @@ class NFSv3(Program):
             )
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: MKDIR on %s", NFS3_PROCEDURE_MKDIR, self.host
-        )
+        logger.debug("NFSv3 procedure %d: MKDIR on %s", NFS3_PROCEDURE_MKDIR, self.host)
         res = self.nfs_request(
             NFS3_PROCEDURE_MKDIR, packer.get_buffer(), auth if auth else self.auth
         )
@@ -491,8 +483,7 @@ class NFSv3(Program):
             what = mknoddata3(type=ftype, pipe_attributes=attrs)
         else:
             raise ValueError(
-                "ftype must be one of [%d, %d, %d, %d]",
-                NF3CHR, NF3BLK, NF3SOCK, NF3FIFO
+                f"ftype must be one of [{NF3CHR}, {NF3BLK}, {NF3SOCK}, {NF3FIFO}]"
             )
         packer.pack_mknod3args(
             mknod3args(
@@ -503,9 +494,7 @@ class NFSv3(Program):
             )
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: MKNOD on %s", NFS3_PROCEDURE_MKNOD, self.host
-        )
+        logger.debug("NFSv3 procedure %d: MKNOD on %s", NFS3_PROCEDURE_MKNOD, self.host)
         res = self.nfs_request(
             NFS3_PROCEDURE_MKNOD, packer.get_buffer(), auth if auth else self.auth
         )
@@ -537,9 +526,7 @@ class NFSv3(Program):
             diropargs3(dir=NFSFileHandleV3(dir_handle), name=str(dir_name).encode())
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: RMDIR on %s", NFS3_PROCEDURE_RMDIR, self.host
-        )
+        logger.debug("NFSv3 procedure %d: RMDIR on %s", NFS3_PROCEDURE_RMDIR, self.host)
         res = self.nfs_request(
             NFS3_PROCEDURE_RMDIR, packer.get_buffer(), auth if auth else self.auth
         )
@@ -587,9 +574,7 @@ class NFSv3(Program):
             )
         )
 
-        logger.debug(
-            "NFSv3 procedure %d: LINK on %s", NFS3_PROCEDURE_LINK, self.host
-        )
+        logger.debug("NFSv3 procedure %d: LINK on %s", NFS3_PROCEDURE_LINK, self.host)
         res = self.nfs_request(
             NFS3_PROCEDURE_LINK, packer.get_buffer(), auth if auth else self.auth
         )
@@ -642,7 +627,8 @@ class NFSv3(Program):
 
         logger.debug(
             "NFSv3 procedure %d: READDIRPLUS on %s",
-            NFS3_PROCEDURE_READDIRPLUS, self.host
+            NFS3_PROCEDURE_READDIRPLUS,
+            self.host,
         )
         res = self.nfs_request(
             NFS3_PROCEDURE_READDIRPLUS, packer.get_buffer(), auth if auth else self.auth

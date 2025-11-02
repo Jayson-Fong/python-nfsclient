@@ -6,7 +6,10 @@ from . import rtypes as types
 
 
 try:
+    # pylint: disable=deprecated-module
     from xdrlib import Packer, Unpacker, ConversionError  # noqa
+
+    # pylint: disable=deprecated-module
     from xdrlib import Error as XDRError  # noqa
 except ImportError:
     from xdrlib3 import Packer, Unpacker, ConversionError
@@ -23,7 +26,7 @@ class NFSv3Packer(Packer):
         try:
             self._Packer__buf.write(struct.pack(">Q", x))
         except struct.error as e:
-            raise ConversionError(e.args[0])
+            raise ConversionError(e.args[0]) from e
 
     def pack_filename3(self, data):
         self.pack_string(data)
@@ -523,7 +526,7 @@ class NFSv3Packer(Packer):
         if data.mode is None:
             raise TypeError("data.mode == None")
         self.pack_createmode3(data.mode)
-        if data.mode == const.UNCHECKED or data.mode == const.GUARDED:
+        if data.mode in {const.UNCHECKED, const.GUARDED}:
             if data.obj_attributes is None:
                 raise TypeError("data.obj_attributes == None")
             self.pack_sattr3(data.obj_attributes)
@@ -588,11 +591,11 @@ class NFSv3Packer(Packer):
         if data.type is None:
             raise TypeError("data.type == None")
         self.pack_ftype3(data.type)
-        if data.type == const.NF3CHR or data.type == const.NF3BLK:
+        if data.type in {const.NF3CHR, const.NF3BLK}:
             if data.device is None:
                 raise TypeError("data.device == None")
             self.pack_devicedata3(data.device)
-        elif data.type == const.NF3SOCK or data.type == const.NF3FIFO:
+        elif data.type in {const.NF3SOCK, const.NF3FIFO}:
             if data.pipe_attributes is None:
                 raise TypeError("data.pipe_attributes == None")
             self.pack_sattr3(data.pipe_attributes)
@@ -1342,8 +1345,8 @@ class NFSv3Unpacker(Unpacker):
                 res["resfail"] = res["wcc_data"]
             res.pop("wcc_data")
             return res
-        else:
-            return data
+
+        return data
 
     def unpack_setattr3res(self, data_format="json"):
         return self.unpack_wccdata3res(category="setattr3res", data_format=data_format)
@@ -1465,7 +1468,7 @@ class NFSv3Unpacker(Unpacker):
     def unpack_createhow3(self, data_format="json"):
         data = types.createhow3()
         data.mode = self.unpack_createmode3()
-        if data.mode == const.UNCHECKED or data.mode == const.GUARDED:
+        if data.mode in {const.UNCHECKED, const.GUARDED}:
             data.obj_attributes = self.unpack_sattr3(data_format)
         elif data.mode == const.EXCLUSIVE:
             data.verf = self.unpack_createverf3()
@@ -1526,9 +1529,9 @@ class NFSv3Unpacker(Unpacker):
     def unpack_mknoddata3(self, data_format="json"):
         data = types.mknoddata3()
         data.type = self.unpack_ftype3()
-        if data.type == const.NF3CHR or data.type == const.NF3BLK:
+        if data.type == {const.NF3CHR, const.NF3BLK}:
             data.device = self.unpack_devicedata3(data_format)
-        elif data.type == const.NF3SOCK or data.type == const.NF3FIFO:
+        elif data.type in {const.NF3SOCK, const.NF3FIFO}:
             data.pipe_attributes = self.unpack_sattr3(data_format)
         else:
             pass

@@ -23,7 +23,7 @@ class NoneAuthenticationFlavor(AuthenticationFlavor):
         return self.pack_header(0)
 
 
-NoAuthentication: AuthenticationFlavor = NoneAuthenticationFlavor()
+NO_AUTHENTICATION: AuthenticationFlavor = NoneAuthenticationFlavor()
 
 
 class SystemAuthenticationFlavor(AuthenticationFlavor):
@@ -90,5 +90,5 @@ __all__ = (
     "AuthenticationFlavor",
     "NoneAuthenticationFlavor",
     "SystemAuthenticationFlavor",
-    "NoAuthentication",
+    "NO_AUTHENTICATION",
 )

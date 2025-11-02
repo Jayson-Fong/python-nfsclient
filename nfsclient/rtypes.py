@@ -467,8 +467,8 @@ class setattr3args:
     #     sattr3 new_attributes;
     #     sattrguard3 guard;
     # };
-    def __init__(self, object=None, new_attributes=None, guard=None):
-        self.object = object
+    def __init__(self, obj=None, new_attributes=None, guard=None):
+        self.object = obj
         self.new_attributes = new_attributes
         self.guard = guard
 
@@ -505,8 +505,8 @@ class lookup3resok:
     #     post_op_attr obj_attributes;
     #     post_op_attr dir_attributes;
     # };
-    def __init__(self, object=None, obj_attributes=None, dir_attributes=None):
-        self.object = object
+    def __init__(self, obj=None, obj_attributes=None, dir_attributes=None):
+        self.object = obj
         self.obj_attributes = obj_attributes
         self.dir_attributes = dir_attributes
 
@@ -548,8 +548,8 @@ class access3args:
     #     nfs_fh3 object;
     #     uint32 access;
     # };
-    def __init__(self, object=None, access=None):
-        self.object = object
+    def __init__(self, obj=None, access=None):
+        self.object = obj
         self.access = access
 
     def __repr__(self):
