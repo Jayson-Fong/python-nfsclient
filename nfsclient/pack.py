@@ -1636,7 +1636,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_readdirplus3args(self, data_format="json"):
-        data = types.readdirplus3args()
+        data = types.ReadDirPlus3Args()
         data.dir = self.unpack_nfs_fh3(data_format)
         data.cookie = self.unpack_uint64()
         data.cookieverf = self.unpack_cookieverf3()
@@ -1645,7 +1645,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_entryplus3(self, data_format="json"):
-        data = types.entryplus3()
+        data = types.EntryPlus3()
         data.fileid = self.unpack_uint64()
         data.name = self.unpack_filename3()
         data.cookie = self.unpack_uint64()
@@ -1657,7 +1657,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_dirlistplus3(self, data_format="json"):
-        data = types.dirlistplus3()
+        data = types.DirListPlusV3()
         data.entries = self.unpack_array(self.unpack_entryplus3)
         if len(data.entries) > 1:
             raise XDRError("array length too long for data.entries")
@@ -1672,7 +1672,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_readdirplus3res(self, data_format="json"):
-        data = types.readdirplus3res()
+        data = types.ReadDirPlus3Response()
         data.status = self.unpack_nfsstat3()
         if data.status == const.NFS3_OK:
             data.resok = self.unpack_readdirplus3resok(data_format)
@@ -1681,7 +1681,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_fsstat3resok(self, data_format="json"):
-        data = types.fsstat3resok()
+        data = types.FSStatv3ResponseOk()
         data.obj_attributes = self.unpack_post_op_attr(data_format)
         data.tbytes = self.unpack_uint64()
         data.fbytes = self.unpack_uint64()
@@ -1702,7 +1702,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_fsinfo3resok(self, data_format="json"):
-        data = types.fsinfo3resok()
+        data = types.FSInfov3ResponseOk()
         data.obj_attributes = self.unpack_post_op_attr(data_format)
         data.rtmax = self.unpack_uint32()
         data.rtpref = self.unpack_uint32()
@@ -1717,7 +1717,7 @@ class NFSv3Unpacker(Unpacker):
         return data.__dict__ if data_format == "json" else data
 
     def unpack_fsinfo3res(self, data_format="json"):
-        data = types.fsinfo3res()
+        data = types.FSInfov3Response()
         data.status = self.unpack_nfsstat3()
         if data.status == const.NFS3_OK:
             data.resok = self.unpack_fsinfo3resok(data_format)

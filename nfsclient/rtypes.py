@@ -1231,7 +1231,7 @@ class readdir3res:
         return f"readdir3res({', '.join(out)})"
 
 
-class readdirplus3args:
+class ReadDirPlus3Args:
     # XDR definition:
     # struct readdirplus3args {
     #     nfs_fh3 dir;
@@ -1264,7 +1264,7 @@ class readdirplus3args:
         return f"readdirplus3args({', '.join(out)})"
 
 
-class entryplus3:
+class EntryPlus3:
     # XDR definition:
     # struct entryplus3 {
     #     uint64 fileid;
@@ -1307,7 +1307,7 @@ class entryplus3:
         return f"entryplus3({', '.join(out)})"
 
 
-class dirlistplus3:
+class DirListPlusV3:
     # XDR definition:
     # struct dirlistplus3 {
     #     entryplus3 entries<1>;
@@ -1349,7 +1349,7 @@ class readdirplus3resok:
         return f"readdirplus3resok({', '.join(out)})"
 
 
-class readdirplus3res:
+class ReadDirPlus3Response:
     # XDR definition:
     # union readdirplus3res switch(nfsstat3 status) {
     #     case NFS3_OK:
@@ -1370,7 +1370,7 @@ class readdirplus3res:
         return f"readdirplus3res({', '.join(out)})"
 
 
-class fsstat3resok:
+class FSStatv3ResponseOk:
     # XDR definition:
     # struct fsstat3resok {
     #     post_op_attr obj_attributes;
@@ -1444,7 +1444,7 @@ class fsstat3res:
         return f"fsstat3res({', '.join(out)})"
 
 
-class fsinfo3resok:
+class FSInfov3ResponseOk:
     # XDR definition:
     # struct fsinfo3resok {
     #     post_op_attr obj_attributes;
@@ -1512,7 +1512,7 @@ class fsinfo3resok:
         return f"fsinfo3resok({', '.join(out)})"
 
 
-class fsinfo3res:
+class FSInfov3Response:
     # XDR definition:
     # union fsinfo3res switch(nfsstat3 status) {
     #     case NFS3_OK:

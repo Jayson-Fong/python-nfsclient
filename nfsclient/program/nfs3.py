@@ -55,7 +55,7 @@ from ..rtypes import (
     sattrguard3,
     access3args,
     readdir3args,
-    readdirplus3args,
+    ReadDirPlus3Args,
     read3args,
     write3args,
     createhow3,
@@ -616,7 +616,7 @@ class NFSv3(Program):
     ):
         packer = NFSv3Packer()
         packer.pack_readdirplus3args(
-            readdirplus3args(
+            ReadDirPlus3Args(
                 dir=NFSFileHandleV3(dir_handle),
                 cookie=cookie,
                 cookieverf=str(cookie_verf).encode(),
