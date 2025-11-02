@@ -49,11 +49,9 @@ jobs:
         python examples/list_exports.py --host 0.0.0.0
         echo "=== RPCInfo"
         python examples/rpcinfo.py --host 0.0.0.0
-        echo "=== Read Secure"
-        python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path example/nfs/directory/file --output-path secure-test
-        # Debug!
-        ls
-        cat secure-test
         echo "=== Read Insecure"
         python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/insecure --file-path example/nfs/directory/file --output-path insecure-test
         cat insecure-test
+        echo "=== Read Secure"
+        python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path example/nfs/directory/file --output-path secure-test
+        cat secure-test
