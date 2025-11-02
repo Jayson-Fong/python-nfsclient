@@ -42,7 +42,7 @@ jobs:
     # These are temporary while proper tests are being worked out.
     - name: Install Project
       run: |
-        sudo python -m pip install -e . --system
+        python -m pip install -e .
     - name: Test Project
       run: |
         echo "=== List Exports"
@@ -52,6 +52,10 @@ jobs:
         echo "=== Read Insecure"
         python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/insecure --file-path hello --output-path insecure-hello
         cat insecure-hello
+        
+        # Configure to allow Python to bind to a privileged port
+        sudo setcap 'cap_net_bind_service=+ep' "$(realpath "$(which python)")"
+        
         echo "=== Read Secure"
-        sudo python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path hello --output-path secure-hello
+        python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path hello --output-path secure-hello
         cat secure-hello
