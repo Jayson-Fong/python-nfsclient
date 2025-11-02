@@ -1,6 +1,16 @@
 import logging
 from functools import wraps
-from typing import Unpack
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    try:
+        from typing import Unpack
+    except ImportError:
+        try:
+            from typing_extensions import Unpack
+        except ImportError:
+            Unpack = None
 
 from ._generic import RPCInitializationArguments, Program
 from ..auth import AuthenticationFlavor, NO_AUTHENTICATION
@@ -110,7 +120,7 @@ class NFSv3(Program):
         host: str,
         port: int,
         auth: AuthenticationFlavor = NO_AUTHENTICATION,
-        **kwargs: Unpack[RPCInitializationArguments],
+        **kwargs: "Unpack[RPCInitializationArguments]",
     ):
         super().__init__(host=host, port=port, **kwargs)
         self.auth: AuthenticationFlavor = auth

@@ -1,7 +1,16 @@
 import logging
 import struct
 from dataclasses import dataclass
-from typing import Optional, Unpack
+from typing import Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    try:
+        from typing import Unpack
+    except ImportError:
+        try:
+            from typing_extensions import Unpack
+        except ImportError:
+            Unpack = None
 
 from ..auth import AuthenticationFlavor, NO_AUTHENTICATION
 from ..const import MOUNT_PROGRAM, MOUNT_V3, MNT3_OK, MOUNTSTAT3, MNT3ERR_NOTSUPP
@@ -28,7 +37,7 @@ class Mount(Program):
         host: str,
         port: int,
         auth: AuthenticationFlavor = NO_AUTHENTICATION,
-        **kwargs: Unpack[RPCInitializationArguments],
+        **kwargs: "Unpack[RPCInitializationArguments]",
     ):
         super().__init__(host=host, port=port, **kwargs)
         self.path: Optional[str] = None
