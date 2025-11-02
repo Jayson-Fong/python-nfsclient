@@ -24,7 +24,7 @@ class Portmap(Program):
 
         portmap = self.request(self.program, self.program_version, 4, data=proto)
 
-        rpc_map_entries = list()
+        rpc_map_entries = []
 
         if len(portmap) <= 4:  # portmap_Value_Follows + one portmap_Map_entry
             return rpc_map_entries

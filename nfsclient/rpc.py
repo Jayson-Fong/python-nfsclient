@@ -13,7 +13,6 @@ logger = logging.getLogger(__package__)
 
 
 class RPC:
-
     def __init__(
         self,
         host: str,

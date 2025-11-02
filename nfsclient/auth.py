@@ -6,7 +6,6 @@ from typing import Final, Optional, List
 
 
 class AuthenticationFlavor:
-
     flavor: int
 
     def pack_header(self, body_length: int) -> bytes:
@@ -18,7 +17,6 @@ class AuthenticationFlavor:
 
 
 class NoneAuthenticationFlavor(AuthenticationFlavor):
-
     flavor: Final[int] = 0
 
     def pack(self) -> bytes:
@@ -29,7 +27,6 @@ NoAuthentication: AuthenticationFlavor = NoneAuthenticationFlavor()
 
 
 class SystemAuthenticationFlavor(AuthenticationFlavor):
-
     __slots__ = ("machine_name", "uid", "gid", "gids", "stamp")
 
     flavor: Final[int] = 1

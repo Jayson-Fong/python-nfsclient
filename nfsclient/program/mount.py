@@ -35,7 +35,7 @@ class Mount(Program):
         self.auth: AuthenticationFlavor = auth
 
     def null(self, auth: Optional[AuthenticationFlavor] = None):
-        logger.debug("Mount NULL on %s" , self.host)
+        logger.debug("Mount NULL on %s", self.host)
         self.request(self.program, self.program_version, 0, auth=auth or self.auth)
 
         return MountMessage(MNT3_OK, MOUNTSTAT3[MNT3_OK])

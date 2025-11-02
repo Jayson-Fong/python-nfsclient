@@ -14,7 +14,6 @@ except ImportError:
 
 
 class NFSv3Packer(Packer):
-
     _Packer__buf: BytesIO
 
     def pack_uint32(self, x):
@@ -1059,7 +1058,6 @@ class NFSv3Packer(Packer):
 
 
 class NFSv3Unpacker(Unpacker):
-
     _Unpacker__pos: int
     _Unpacker__buf: BytesIO
 

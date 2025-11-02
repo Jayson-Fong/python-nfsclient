@@ -2,7 +2,6 @@ from . import const
 
 
 class SpecialDataV3:
-
     # XDR definition:
     # struct specdata3 {
     #     uint32 major;
@@ -22,7 +21,6 @@ class SpecialDataV3:
 
 
 class NFSFileHandleV3:
-
     # XDR definition:
     # struct nfs_fh3 {
     #     opaque data<NFS3_FHSIZE>;
@@ -38,7 +36,6 @@ class NFSFileHandleV3:
 
 
 class NFSTime:
-
     # XDR definition:
     # struct nfstime3 {
     #     uint32 seconds;
@@ -58,7 +55,6 @@ class NFSTime:
 
 
 class FileAttributeV3:
-
     # XDR definition:
     # struct fattr3 {
     #     ftype3 type;
@@ -768,9 +764,7 @@ class write3resok:
         if self.count is not None:
             out += [f"count={self.count!r}"]
         if self.committed is not None:
-            out += [
-                f"committed={const.STABLE_HOW.get(self.committed, self.committed)}"
-            ]
+            out += [f"committed={const.STABLE_HOW.get(self.committed, self.committed)}"]
         if self.verf is not None:
             out += [f"verf={self.verf!r}"]
         return f"write3resok({', '.join(out)})"
@@ -854,7 +848,7 @@ class create3resok:
         self.dir_wcc = dir_wcc
 
     def __repr__(self):
-        out = list()
+        out = []
         if self.obj is not None:
             out += [f"obj={self.obj!r}"]
         if self.obj_attributes is not None:
@@ -877,7 +871,7 @@ class create3res:
         self.resok = resok
 
     def __repr__(self):
-        out = list()
+        out = []
         if self.status is not None:
             out += [f"status={const.NFSSTAT3.get(self.status, self.status)}"]
         if self.resok is not None:
