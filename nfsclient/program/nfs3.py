@@ -141,10 +141,10 @@ class NFSv3(Program):
         mtime_ns=0,
     ):
         if atime_flag not in time_how:
-            raise ValueError("atime flag must be one of %s" % time_how.keys())
+            raise ValueError(f"atime flag must be one of {time_how.keys()}")
 
         if mtime_flag not in time_how:
-            raise ValueError("mtime flag must be one of %s" % time_how.keys())
+            raise ValueError(f"mtime flag must be one of {time_how.keys()}")
 
         attrs = sattr3(
             mode=set_uint32(True, int(mode)) if mode is not None else set_uint32(False),
@@ -657,7 +657,7 @@ class NFSv3(Program):
         packer.pack_fhandle3(file_handle)
 
         logger.debug(
-            "NFSv3 procedure %d: FSSTAT on %s" % (NFS3_PROCEDURE_FSSTAT, self.host)
+            "NFSv3 procedure %d: FSSTAT on %s", NFS3_PROCEDURE_FSSTAT, self.host
         )
         data = self.nfs_request(
             NFS3_PROCEDURE_FSSTAT, packer.get_buffer(), auth if auth else self.auth
@@ -672,7 +672,7 @@ class NFSv3(Program):
         packer.pack_fhandle3(file_handle)
 
         logger.debug(
-            "NFSv3 procedure %d: FSINFO on %s" % (NFS3_PROCEDURE_FSINFO, self.host)
+            "NFSv3 procedure %d: FSINFO on %s", NFS3_PROCEDURE_FSINFO, self.host
         )
         data = self.nfs_request(
             NFS3_PROCEDURE_FSINFO, packer.get_buffer(), auth if auth else self.auth
@@ -704,7 +704,7 @@ class NFSv3(Program):
         )
 
         logger.debug(
-            "NFSv3 procedure %d: COMMIT on %s" % (NFS3_PROCEDURE_COMMIT, self.host)
+            "NFSv3 procedure %d: COMMIT on %s", NFS3_PROCEDURE_COMMIT, self.host
         )
         res = self.nfs_request(
             NFS3_PROCEDURE_COMMIT, packer.get_buffer(), auth if auth else self.auth
