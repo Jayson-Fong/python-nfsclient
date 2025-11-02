@@ -1,7 +1,6 @@
 from __future__ import absolute_import
 import logging
 from logging import NullHandler
-from .__info__ import __version__, __author__, __author_email__, __description__
 from .rpc import RPC
 from .program.portmap import Portmap
 from .program.mount import Mount
@@ -9,10 +8,6 @@ from .program.nfs3 import NFSv3
 from .const import *
 
 logging.getLogger(__package__).addHandler(NullHandler())
-
-__author__ = "{} <{}>".format(__author__, __author_email__)
-__version__ = __version__
-__doc__ = __description__
 
 
 def release_all_rpc():

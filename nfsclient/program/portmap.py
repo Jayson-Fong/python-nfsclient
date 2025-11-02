@@ -21,9 +21,7 @@ class Portmap(Program):
     def dump(self):
         proto = struct.pack("!LL", self.program_version, 4)
 
-        portmap = self.request(
-            self.program, self.program_version, 4, data=proto
-        )
+        portmap = self.request(self.program, self.program_version, 4, data=proto)
 
         rpc_map_entries = list()
 
