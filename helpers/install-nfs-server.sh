@@ -10,24 +10,20 @@ sudo apt install -y nfs-kernel-server
 
 # Create Share
 sudo mkdir -p /mnt/nfs/secure
-sudo mdkr -p /mnt/nfs/insecure
+sudo mkdir -p /mnt/nfs/insecure
 
 sudo chmod 777 /mnt/nfs/secure
 sudo chmod 777 /mnt/nfs/insecure
 
-sudo echo "/mnt/nfs/secure *(rw,sync,no_subtree_check)" >> /etc/exports
-sudo echo "/mnt/nfs/insecure *(rw,sync,no_subtree_check,insecure)" >> /etc/exports
+sudo echo "/mnt/nfs/secure *(rw,sync,no_subtree_check)" | sudo tee -a /etc/exports
+sudo echo "/mnt/nfs/insecure *(rw,sync,no_subtree_check,insecure)" | sudo tee -a /etc/exports
 
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
 
 # Prepare Files
 sudo mkdir -p /mnt/nfs/secure/example/nfs/directory
-sudo touch /mnt/nfs/secure/example/nfs/directory/file
-sudo chmod 777 /mnt/nfs/secure/example/nfs/directory/file
-echo "Hello World" > /mnt/nfs/secure/example/nfs/directory/file
+echo "Hello World" | sudo tee -a /mnt/nfs/secure/example/nfs/directory/file
 
 sudo mkdir -p /mnt/nfs/insecure/example/nfs/directory
-sudo touch /mnt/nfs/insecure/example/nfs/directory/file
-sudo chmod 777 /mnt/nfs/insecure/example/nfs/directory/file
-echo "Hello World" > /mnt/nfs/insecure/example/nfs/directory/file
+echo "Hello World" | sudo tee -a /mnt/nfs/insecure/example/nfs/directory/file
