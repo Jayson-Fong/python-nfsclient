@@ -28,7 +28,7 @@ and broader support across operating systems and network configurations, such as
 
 This package generally requires no dependencies. However, as the `xdrlib` module was removed from the Python standard 
 library starting in Python version 3.13, [xdrlib3](https://pypi.org/project/xdrlib3/) is required for these later 
-versions (see [PEP 594](https://peps.python.org/pep-0594/).
+versions (see [PEP 594](https://peps.python.org/pep-0594/)).
 
 You can install the latest development version from GitHub:
 
