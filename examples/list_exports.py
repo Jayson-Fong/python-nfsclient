@@ -1,14 +1,17 @@
 import argparse
 import sys
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from nfsclient import Mount, Portmap
-from nfsclient.rtypes import ExportNode
 
 
-def get_exports(host: str):
+if TYPE_CHECKING:
+    from nfsclient.rtypes import ExportNode
+
+
+def get_exports(host: str) -> List["ExportNode"]:
     with Portmap(host) as portmap:
-        port = portmap.getport(Mount)
+        port: int = portmap.getport(Mount)
 
     with Mount(host, port) as mount:
         return mount.export()
@@ -17,7 +20,7 @@ def get_exports(host: str):
 PATH_HEADER: str = "Exported Path"
 
 
-def display_exports(exports: List[ExportNode]):
+def display_exports(exports: List["ExportNode"]) -> None:
     if not exports:
         sys.exit("No exports found")
 
@@ -28,16 +31,16 @@ def display_exports(exports: List[ExportNode]):
 
     print(PATH_HEADER.ljust(longest_name), "Exported Groups", sep="\t", file=sys.stderr)
     for export in exports:
-        exported_groups = ",".join([group.gr_name.decode(errors="backslashreplace") for group in export.ex_groups])
+        exported_groups: str = ",".join([group.gr_name.decode(errors="backslashreplace") for group in export.ex_groups])
         print(export.ex_dir.decode(errors="backslashreplace").ljust(longest_name), exported_groups, sep="\t")
 
 
-def cli():
-    parser = argparse.ArgumentParser(description="NFSv3 Export Lister")
+def cli() -> None:
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(description="NFSv3 Export Lister")
     parser.add_argument("--host", type=str, help="NFS Server Host", required=True)
 
-    args = parser.parse_args()
-    exports = get_exports(args.host)
+    args: argparse.Namespace = parser.parse_args()
+    exports: List["ExportNode"] = get_exports(args.host)
 
     display_exports(exports)
 
