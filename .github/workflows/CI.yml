@@ -41,10 +41,10 @@ jobs:
         ./helpers/install-nfs-server.sh
     # These are temporary while proper tests are being worked out.
     - name: Install Project
-      run:
+      run: |
         python -m pip install -e .
     - name: Test Project
-      run:
+      run: |
         python examples/list_exports.py --host 0.0.0.0
         python examples/rpcinfo.py --host 0.0.0.0
         python examples/read_file.py --host 0.0.0.0 --mount-path /mnt/nfs/secure --file-path example/nfs/directory/file --output-path secure-test
