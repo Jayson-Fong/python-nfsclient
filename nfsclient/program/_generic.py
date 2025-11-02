@@ -1,5 +1,5 @@
 import abc
-from typing import TypedDict, Optional, NotRequired, Union, TYPE_CHECKING
+from typing import TypedDict, Optional, Union, TYPE_CHECKING
 
 from .._types import SupportsLenAndGetItem
 from ..rpc import RPC
