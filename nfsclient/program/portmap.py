@@ -1,5 +1,6 @@
 import inspect
 import struct
+import warnings
 from typing import Union, Optional, overload, Type, Unpack
 
 from ..const import PORTMAP_PROGRAM, PORTMAP_VERSION, PORTMAP_PORT
@@ -42,7 +43,8 @@ class Portmap(Program):
             elif protocol == 0x11:
                 protocol = "udp"
             else:
-                protocol = "unknown".format(protocol)
+                warnings.warn(f"Unknown protocol: {protocol}")
+                protocol = "unknown"
 
             _ = {
                 "program": program,

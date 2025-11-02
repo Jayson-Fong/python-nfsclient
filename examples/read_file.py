@@ -54,7 +54,7 @@ def read_file(
 
 
 def cli():
-    parser = argparse.ArgumentParser(description="NFSv3 File Reader")
+    parser: argparse.ArgumentParser = argparse.ArgumentParser(description="NFSv3 File Reader")
     parser.add_argument("--host", type=str, help="NFS Server Host", required=True)
     parser.add_argument(
         "--mount-path", type=str, help="NFS Server Mount Path", required=True
@@ -62,7 +62,7 @@ def cli():
     parser.add_argument("--file-path", type=str, help="File Path", required=True)
     parser.add_argument("--output-path", type=str, help="Output Path", required=True)
 
-    args = parser.parse_args()
+    args: argparse.Namespace = parser.parse_args()
     data, status = read_file(args.host, args.mount_path, args.file_path)
 
     if data is None:

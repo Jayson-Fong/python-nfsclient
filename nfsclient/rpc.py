@@ -45,7 +45,7 @@ class RPC:
         program_version: int,
         procedure: int,
         data: Optional[Union[bytes, bytearray]] = None,
-        message_type: int= 0,
+        message_type: int = 0,
         version: int = 2,
         auth: _auth.AuthenticationFlavor = _auth.NoAuthentication,
         rpc_xid: Optional[int] = None,
@@ -169,7 +169,9 @@ class RPC:
             rpc_response_size = self.client.recv(4)
 
         if len(rpc_response_size) != 4:
-            raise RPCProtocolError(f"Incorrect response size received: {len(rpc_response_size)}")
+            raise RPCProtocolError(
+                f"Incorrect response size received: {len(rpc_response_size)}"
+            )
         response_size: int = struct.unpack("!L", rpc_response_size)[0] & 0x7FFFFFFF
 
         rpc_response: bytes = rpc_response_size
